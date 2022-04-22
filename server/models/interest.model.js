@@ -3,9 +3,11 @@ const Schema = mongoose.Schema;
 
 const interestSchema = new Schema(
 	{
+		interest: {
+			type: Boolean,
+		},
 		going: {
 			type: Boolean,
-			required: [true, "Something went wrong..."],
 		},
 		event: {
 			type: mongoose.Schema.Types.ObjectId,
