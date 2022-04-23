@@ -24,6 +24,7 @@ return (
         	<Route path = "/user/profile/:username" element = {<Profile loggedInUser={user}/>}/>
         	<Route path="/allusers" element = {<AllUsers/>}/>        
         	<Route path="/updateuser/:username" element = {<SetProfile/>}/> */}
+			<Route path = "/CreateEvent" element = {<CreateEvent/>} />
         </Routes>
     </div>
     </BrowserRouter>    
