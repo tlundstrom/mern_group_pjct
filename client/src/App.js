@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 //import SignInSignUp from "./views/SignInSignUp"
 import AllEvents from './components/AllEvents';
+import CreateEvent from './components/CreateEvent';
+import EditEvent from './components/EditEvent';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
