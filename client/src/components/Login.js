@@ -6,7 +6,7 @@ import FormGroup from "react-bootstrap/FormGroup";
 import Modal from "react-bootstrap/Modal";
 
 
-const SignIn = (props) => {
+const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -48,7 +48,7 @@ const SignIn = (props) => {
             <Modal showOverlay={false} show={show} onHide={handleClose}>
                 <Modal.Header>
                     <Modal.Title style={{margin:"auto"}}>
-                        Sign in
+                        Login
                     </Modal.Title>
                 </Modal.Header>
 
@@ -88,7 +88,7 @@ const SignIn = (props) => {
                             color:"#ffffff", 
                             borderRadius: "5px", 
                             border:"none"}}>
-                                Sign In
+                                Login
                         </button> 
                                     
                     </form>
@@ -109,4 +109,4 @@ const SignIn = (props) => {
 };
 
 
-export default SignIn
+export default Login

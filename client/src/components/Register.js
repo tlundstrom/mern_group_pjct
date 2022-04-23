@@ -61,7 +61,7 @@ const Register = (props) => {
             <Modal showOverlay={false} show={show} onHide={handleClose}>
                 <Modal.Header>
                     <Modal.Title style={{margin:"auto"}}>
-                        Sign up
+                        Register
                     </Modal.Title>
                 </Modal.Header>
 
@@ -140,7 +140,7 @@ const Register = (props) => {
                         <button 
                         className="mt-4"
                         style={{background:"#0d6efd", width:"470px", height: "40px", color:"#ffffff", borderRadius: "5px", border:"none", marginTop:"8px"}}>
-                            Sign Up
+                            Register
                         </button>
             
                     </form>
