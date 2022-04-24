@@ -27,7 +27,7 @@ module.exports = {
 	},
 
 	getOneEvent: (req, res) => {
-		Event.findOne({ _id: req.params.id })
+		Event.find({ _id: req.params.id })
 			.then((event) => {
 				return res.json(event);
 			})
