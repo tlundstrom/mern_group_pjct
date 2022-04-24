@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import FormGroup from "react-bootstrap/FormGroup";
-import Modal from "react-bootstrap/Modal";
+// import Modal from "react-bootstrap/Modal";
 
 
 const Login = (props) => {
@@ -12,8 +12,6 @@ const Login = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate();
-
-    const {show, handleClose} = props;
 
 
     const login = (event) => {
@@ -44,17 +42,9 @@ const Login = (props) => {
     };
 
     return (
-        <div>
-            <Modal showOverlay={false} show={show} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title style={{margin:"auto"}}>
-                        Login
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    
-                    <form onSubmit={login}>
+        <div>            
+            <h2 className="text-center text-primary">Login</h2>       
+                    <Form onSubmit={login}>
                         <FormGroup className="mt-2">
                             {/* <Form.Label>Email address</Form.Label> */}
                             <Form.Control
@@ -68,7 +58,7 @@ const Login = (props) => {
 
                         <FormGroup className="mt-4">
                             {/* <Form.Label>Password</Form.Label> */}
-                            <Form.Control
+                            <Form.Control 
                             type="password"
                             name="password"
                             value={password}
@@ -80,30 +70,18 @@ const Login = (props) => {
                         <p className="error-text mt-2" style={{color:"red"}}>{errorMessage ? errorMessage : ""}</p>
 
                         <button  
-                        className="mt-2" 
+                        className="mt-2 px-4" 
                         style={{
-                            background:"#0d6efd", 
-                            width:"470px", 
-                            height: "40px", 
+                            background:"#0d6efd",
+                            height:"40px",   
                             color:"#ffffff", 
                             borderRadius: "5px", 
                             border:"none"}}>
                                 Login
                         </button> 
                                     
-                    </form>
+                    </Form>        
         
-                </Modal.Body>
-
-
-                {/* <Modal.Footer>
-                    <p>Do not have an account? Sign Up</p>
-                    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-                    <Button variant="primary" onClick={handleClose}>SignIn</Button> *
-                </Modal.Footer> */}
-    
-            </Modal>     
-            
         </div>
     );
 };

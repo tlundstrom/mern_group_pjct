@@ -3,7 +3,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import FormGroup from "react-bootstrap/FormGroup";
-import Modal from "react-bootstrap/Modal";
+
 
 
 const Register = (props) => {
@@ -16,7 +16,6 @@ const Register = (props) => {
     const [confirmReg, setConfirmReg] = useState(false);
     const [errors, setErrors] = useState({});
 
-    const {show, setShowSignIn, handleShow, handleClose} = props;
 
 
     const register = (e) => {
@@ -54,21 +53,9 @@ const Register = (props) => {
 
 
     return (
-        <div>     
-
-            {/* using the Modal to display the Sign up pop up */}
-
-            <Modal showOverlay={false} show={show} onHide={handleClose}>
-                <Modal.Header>
-                    <Modal.Title style={{margin:"auto"}}>
-                        Register
-                    </Modal.Title>
-                </Modal.Header>
-
-                <Modal.Body>
-                    
-
-                    <form onSubmit={register}>
+        <div> 
+            <h2 className="text-center text-primary">Register</h2>
+            <Form onSubmit={register}>
                         <FormGroup className="mt-2">                            
                             <Form.Control
                             type="text"
@@ -138,26 +125,15 @@ const Register = (props) => {
                         </FormGroup>
 
                         <button 
-                        className="mt-4"
-                        style={{background:"#0d6efd", width:"470px", height: "40px", color:"#ffffff", borderRadius: "5px", border:"none", marginTop:"8px"}}>
+                        className="mt-4 px-4"
+                        style={{background:"#0d6efd", height: "40px", color:"#ffffff", borderRadius: "5px", border:"none", marginTop:"8px"}}>
                             Register
                         </button>
             
-                    </form>
+                    </Form>
 
                     {confirmReg ? <p className ="text-primary">Thank you for signing up, you can sign in now </p> : null}
         
-                </Modal.Body>
-
-
-                {/* <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-                    <Button variant="primary" onClick={handleClose}>SignIn</Button> 
-                </Modal.Footer> */}
-    
-            </Modal> 
-    
-
         </div>
     )
 }

@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-//import LoginReg from "./views/LoginReg"
 import AllEvents from './components/AllEvents';
-import SignInSignUp from "./views/LoginReg"
+import GoogleMaps from './components/GoogleMaps';
+// import LoginReg from "./views/LoginReg"
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,8 +16,9 @@ return (
 	<div>  
 		<Routes>
 			{/* <Route path = "/" element = {<LoginReg/>}/> */}
-            <Route path = "/home" element = {<AllEvents events = {events} setEvents = {setEvents}/>}/>     
-        {/* <Route path = "/add" element = {<AddEvent/>}/>       
+            <Route path = "/home" element = {<AllEvents events = {events} setEvents = {setEvents}/>}/>
+            <Route path = "/maps" element = {<GoogleMaps/>}/>      
+        {/* <Route path = "/add" element = {<HostEvent/>}/>       
         <Route path = "/edit/:id" element = {<EditEvent/>}/>
         <Route path = "/:id" element = {<ViewTrip trips = {trips} setTrips = {setTrips}/>}/>        	       
         */}

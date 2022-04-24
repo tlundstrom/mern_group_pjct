@@ -6,6 +6,8 @@ import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -141,6 +143,10 @@ const [searchZipCode, setSearchZipCode] = useState("");
 const [searchCategory, setSearchCategory] = useState("");
 const [searchDate, setSearchDate] = useState("");
 const [searchResult, setSearchResult] = useState([]);
+const [queryFound, setQueryFound] = useState(false)
+const [status, setStatus] = useState("");
+
+const navigate = useNavigate();
 
 
 const handleSubmit = (e) => {
@@ -150,7 +156,7 @@ const handleSubmit = (e) => {
 })
 console.log(result)
 setSearchResult(result);
-
+setQueryFound(true);
 }
     
 // 
@@ -178,6 +184,25 @@ const handleEventButton = (e) => {
     setShow(!show);
 }
 
+const logoutHandler = (e) => {
+        axios.post("http://localhost:8000/api/users/logout",
+        {},
+
+        { withCredentials:true },
+
+        )
+
+        .then((res) => {
+            console.log(res);
+            console.log(res.data);
+            navigate("/");
+        })
+
+        .catch((err) => console.log(err)
+        )
+
+    }
+
 return (
     <div>
         <Navbar className="bg-light" expand="lg" fixed="top"> 
@@ -193,7 +218,7 @@ return (
                             </button>
                             </Link>  
 
-                            <Link to={"/"} 
+                            <Link to={"/add"} 
                             className="me-5">
                                 <button                             
                             style={{color:"gray",border:"none", background:"none"}}>
@@ -219,7 +244,7 @@ return (
                                 </img>
                             </Link>                            
 
-                            <button 
+                            <button onClick={logoutHandler} 
                             
                             style={{color:"gray",border:"none", background:"none"}}>
                                 Logout
@@ -232,23 +257,29 @@ return (
         <div style={{height:"50px"}}></div>  
 
         {show && 
-        <Form  onSubmit={handleSubmit}>
-            <Container className=" mx-auto">
+        
+        <Form  className=" mt-4" onSubmit={handleSubmit}>
+            <Container>
 
             
-                <Row d-flex align-items-center>
+                <Row>
                     <Col>
                     
-                        <Form.Group controlId="formBasicSelect" className="w-50 mt-4">
+                        <Form.Group controlId="formBasicSelect" className="mt-4">
                             {/* <Form.Label>Pick a Date</Form.Label> */}
-                            <Form.Control type="date" name="date" placeholder="Pick a date" onChange={(e) => setSearchDate(e.target.value)}/>                
+                            <Form.Control 
+                            type="date" 
+                            name="date" 
+                            placeholder="Pick a date" 
+                            onChange={(e) => setSearchDate(e.target.value)}/>                
+                        
                         </Form.Group>
                     
                     </Col>
 
                     <Col>
                     {/* <Card className="w-50 mt-4"> */}
-                    <Form.Group controlId="formBasicSelect" className="w-50 mt-4">
+                    <Form.Group controlId="formBasicSelect" className="mt-4">
                         <Form.Select aria-label="Default select example" onChange= {(e) => setSearchCategory(e.target.value)}>
                             <option>Select a category</option>
                             <option value="Arts">Arts</option>
@@ -266,7 +297,7 @@ return (
 
                 <Col>
                 
-                    <Form.Group controlId="formBasicSelect" className="w-50 mt-4">
+                    <Form.Group controlId="formBasicSelect" className=" mt-4">
                         <Form.Select aria-label="Default select example" onChange= {(e) => setSearchZipCode(e.target.value)}>
                             <option>Select a zipcode</option>
                             <option value="94118">94118</option>
@@ -282,7 +313,7 @@ return (
                 </Col>
 
                 <Col>  
-                <Form.Group className="w-50 mt-4">
+                <Form.Group className=" mt-4">
                     <button className="btn btn-secondary">Submit</button>  
                 </Form.Group>                    
                 
@@ -293,6 +324,7 @@ return (
             
         </Container>
         </Form>
+    
         }
 
         <div style={{height:"30px"}}></div> 
@@ -310,23 +342,59 @@ return (
                     <Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
                         
                     
-        {
+        { 
             events.map((event, index) => {
                 return (
-                    <Card key = {index} className="mb-5">
+                    <Card key = {index} className="mb-5 p-3" style={eventClickedId === event.id? {border:"blue", borderRadius:"5px 5px 5px 5px", background:"gray"}: {borderRadius:"5px 5px 5px 5px"}}>
                         <Row>
                             <Col sm={6}>
                             <Card.Img src={event.img}></Card.Img>
                             </Col>
 
                             <Col sm={6}>
-                            <Card.Text><button onClick= {(e) => handleClick(e,event.name, event.location, event.eventDescription,event.img, event.id)} style={eventClickedId === event.id? {color:"gray",border:"none", borderRadius:"5px 5px 5px 5px", background:"red"}: null}>{event.name}</button></Card.Text> 
+                            <Card.Text><button onClick= {(e) => handleClick(e,event.name, event.location, event.eventDescription,event.img, event.id)}>{event.name}</button></Card.Text> 
                             <Card.Text>{event.location}, {event.zipcode}</Card.Text> 
                             <Card.Text>{event.hostedBy}</Card.Text> 
                             <Card.Text>{event.eventType}</Card.Text> 
                             <Card.Text>{event.eventDescription.substring(0,100)} .....</Card.Text> 
+                            
                             </Col>
                         
+                        </Row>
+
+                        <Row>
+                            <Form className="mx-auto mt-4">
+                                <Form.Group>
+                                    <Form.Check 
+                                    className="me-5" 
+                                    inline
+                                    name="status" 
+                                    value="interested" 
+                                    label="Interested" 
+                                    checked = {status === "interested"}
+                                    onChange = {(event) = setStatus(event.target.value)}
+                                    type="radio"/>
+
+                                    <Form.Check 
+                                    className="me-5" 
+                                    name="status" 
+                                    value="going" 
+                                    label="Going" 
+                                    checked = {status === "going"}
+                                    onChange = {(event) = setStatus(event.target.value)}
+                                    inline 
+                                    type="radio"/>
+
+                                    <Form.Check  
+                                    name="status" 
+                                    value="not going" 
+                                    label="Not Going" 
+                                    checked = {status === "not going"}
+                                    onChange = {(event) = setStatus(event.target.value)}
+                                    inline 
+                                    type="radio"/>
+                                </Form.Group>
+                            </Form>
                         </Row>
                     </Card>
                     
