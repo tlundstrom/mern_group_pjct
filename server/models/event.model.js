@@ -1,3 +1,4 @@
+import axios from "axios";
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -42,7 +43,7 @@ const eventSchema = new Schema(
 		going: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "Going",
+				ref: "Interested",
 			},
 		],
 		createdBy: {
@@ -52,6 +53,35 @@ const eventSchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+eventSchema.pre("save", function (next) {
+	console.log("in presave");
+	let streetAddress = this.location;
+	axios
+		.get("https://maps.googleapis.com/maps/api/geocode/json", {
+			params: {
+				address: streetAddress,
+				key: process.env.MAPS_API_KEY,
+			},
+		})
+		.then((res) => {
+			this.location = res.data.results[0].geometry.location;
+			next();
+		})
+		.catch((err) => console.log(err));
+});
+
+eventSchema.post("find", function (next) {
+	console.log("in postfind");
+	let latlng = this.location;
+	axios
+		.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng.lat},${latlng.lng}&key=${process.env.MAPS_API_KEY}`, {})
+		.then((res) => {
+			this.location = res.data.results[0].formatted_address;
+			next();
+		})
+		.catch((err) => console.log(err));
+});
 
 eventSchema.virtual("url").get(function () {
 	return "/events/" + this._id;
