@@ -10,8 +10,8 @@ const CreateEvent = (props)=>{
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [info, setInfo] = useState("");
-    const [interested,setInterested] = useState("");
-    const [going, setGoing] = useState("");
+    const [interested,setInterested] = useState(false);
+    const [going, setGoing] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
@@ -128,7 +128,7 @@ const CreateEvent = (props)=>{
     
                 <div>
                     <label>Interested:  </label>
-                    <input value={interested} onChange={(e)=> setInterested(e.target.value)} type="text"/>
+                    <input checked={interested} onChange={(e)=> setInterested(e.target.value)} type="checkbox"/>
                         <br/>
                         {
                             errors.interested?
@@ -140,7 +140,7 @@ const CreateEvent = (props)=>{
     
                 <div>
                     <label>Going:  </label>
-                    <input value={going} onChange={(e)=> setGoing(e.target.value)} type="text"/>
+                    <input checked={going} onChange={(e)=> setGoing(e.target.value)} type="checkbox"/>
                         <br/>
                         {
                             errors.going?
