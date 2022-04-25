@@ -11,8 +11,6 @@ const CreateEvent = (props)=>{
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [info, setInfo] = useState("");
-    const [interested,setInterested] = useState(false);
-    const [going, setGoing] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
@@ -28,8 +26,6 @@ const CreateEvent = (props)=>{
             time,
             date,
             info,
-            interested,
-            going,
         },
         { withCredentials: true}
         )
@@ -145,30 +141,6 @@ const CreateEvent = (props)=>{
                         {
                             errors.info?
                             <p>{errors.info.message}</p>
-                            :null
-                        }
-                            <br/>
-                </div>
-    
-                <div>
-                    <label>Interested:  </label>
-                    <input checked={interested} onChange={(e)=> setInterested(e.target.value)} type="checkbox"/>
-                        <br/>
-                        {
-                            errors.interested?
-                            <p>{errors.interested.message}</p>
-                            :null
-                        }
-                            <br/>
-                </div>
-    
-                <div>
-                    <label>Going:  </label>
-                    <input checked={going} onChange={(e)=> setGoing(e.target.value)} type="checkbox"/>
-                        <br/>
-                        {
-                            errors.going?
-                            <p>{errors.going.message}</p>
                             :null
                         }
                             <br/>
