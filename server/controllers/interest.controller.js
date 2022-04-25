@@ -10,13 +10,8 @@ module.exports = {
 
 		Event.findById(id) // finds the event that will get updated
 			.then((event) => {
-				// looks at the type of interest then pushes it to the array of the event.
-				if (!!newInterestObject.interest) {
-					console.log(event);
-					event.interested.push(newInterestObject._id);
-				} else {
-					event.going.push(newInterestObject._id);
-				}
+				//Ternary looks at the type of interest then pushes it to the array of the event.
+				!!newInterestObject.interest ? event.interested.push(newInterestObject._id) : event.going.push(newInterestObject._id);
 				event.save();
 			})
 			.catch((err) => {});
