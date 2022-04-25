@@ -8,9 +8,9 @@ module.exports = {
 		newInterestObject.event = id;
 		newInterestObject.createdBy = req.jwtpayload.id;
 
-		Event.findById(id)
+		Event.findById(id) // finds the event that will get updated
 			.then((event) => {
-				console.log(newInterestObject._id);
+				// looks at the type of interest then pushes it to the array of the event.
 				if (!!newInterestObject.interest) {
 					console.log(event);
 					event.interested.push(newInterestObject._id);
@@ -19,9 +19,7 @@ module.exports = {
 				}
 				event.save();
 			})
-			.catch((err) => {
-				console.log(err);
-			});
+			.catch((err) => {});
 
 		newInterestObject
 			.save()

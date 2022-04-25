@@ -58,7 +58,9 @@ const eventSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
+// This will take any sloppy address that a user inputs,
+// it will then run it through geocode api on the back end.
+// The ouput will be saved as latitude longitude and full address.
 eventSchema.pre("save", function (next) {
 	console.log("in presave");
 	let address = this.location;
@@ -77,7 +79,8 @@ eventSchema.pre("save", function (next) {
 		})
 		.catch((err) => console.log(err));
 });
-
+//Creates a virtual url path so that interest routes can be appended to the relating event in the api
+//This allows for getting url paramerters for the relevant event when expressing interest in it.
 eventSchema.virtual("url").get(function () {
 	return "/events/" + this._id;
 });
