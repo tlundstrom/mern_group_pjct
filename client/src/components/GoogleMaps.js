@@ -7,11 +7,12 @@ const mapContainerStyle = {
 	height: "100vh",
 	width: "100vw",
 };
+const libraries = ["places"];
 
 const GoogleMaps = (props) => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: "AIzaSyA8fRfoZnWKRVcO72JbnM4Yp-UQ-9dsqTk",
-		libraries: ["places"],
+		libraries,
 	});
 
 	if (!isLoaded) return <div>Loading .....</div>;
@@ -25,7 +26,7 @@ const Map = () => {
 	return (
 		<div>
 			<PlacesAutocomplete setSelected={setSelected} />
-			<GoogleMap zoom={10} center={selected} mapContainerStyle={mapContainerStyle}>
+			<GoogleMap zoom={10} center={selected || center} mapContainerStyle={mapContainerStyle}>
 				{selected && <Marker position={selected} />}
 			</GoogleMap>
 		</div>
