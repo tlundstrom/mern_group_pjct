@@ -5,6 +5,7 @@ import FileBase64 from "react-file-base64";
 
 const CreateEvent = (props)=>{
     const [name, setName] = useState("");
+    const [category, setCategory] = useState("");
     const [location, setLocation] = useState("");
     const [img, setImg] = useState("");
     const [time, setTime] = useState("");
@@ -21,6 +22,7 @@ const CreateEvent = (props)=>{
         axios.post("http://localhost:8000/api/events/create",
         {
             name,
+            category,
             location,
             img,
             time,
@@ -48,6 +50,7 @@ const CreateEvent = (props)=>{
 
     return (
         <div>
+            <h1>Create Event</h1>
             
             <form onSubmit={submitHandler}>
                 <div>
@@ -57,6 +60,27 @@ const CreateEvent = (props)=>{
                         {
                             errors.name?
                             <p>{errors.name.message}</p>
+                            :null
+                        }
+                            <br/>
+                </div>
+
+                <div>
+                    <select value = {category} name = "category" onChange={(e)=> setCategory(e.target.value)}>
+                        <option defaultValue hidden>Select Category</option>
+                        <option value = "Arts">Arts</option>
+                        <option value = "Books">Books</option>
+                        <option value = "Movies">Movies</option>
+                        <option value = "Music">Music</option>
+                        <option value = "Nature">Nature</option>
+                        <option value = "Food">Food</option>
+                        <option value = "Sports">Sports</option>
+                        <option value = "Tiger Show">Tiger Show</option>
+                    </select>
+                        <br/>
+                        {
+                            errors.category?
+                            <p>{errors.category.message}</p>
                             :null
                         }
                             <br/>
@@ -176,4 +200,4 @@ const CreateEvent = (props)=>{
 
 
 
-}
+

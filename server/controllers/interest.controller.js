@@ -1,14 +1,25 @@
 const Interest = require("../models/interest.model");
+const Event = require("../models/event.model");
 
 module.exports = {
 	createInterest: (req, res) => {
 		const newInterestObject = new Interest(req.body);
-
+		const id = req.params.eventId;
+		newInterestObject.event = id;
 		newInterestObject.createdBy = req.jwtpayload.id;
+
+		Event.findById(id) // finds the event that will get updated
+			.then((event) => {
+				//Ternary looks at the type of interest then pushes it to the array of the event.
+				!!newInterestObject.interest ? event.interested.push(newInterestObject._id) : event.going.push(newInterestObject._id);
+				event.save();
+			})
+			.catch((err) => {});
+
 		newInterestObject
 			.save()
-			.then((event) => {
-				return res.json(event);
+			.then((interest) => {
+				return res.json(interest);
 			})
 			.catch((err) => {
 				return res.status(400).json(err);
@@ -16,10 +27,12 @@ module.exports = {
 	},
 
 	getAllInterests: (req, res) => {
-		Event.find({})
+		const id = req.params.eventId;
+		console.log(id);
+		Interest.find({})
 			.populate("createdBy", "name")
-			.then((interest) => {
-				res.json(interest);
+			.then((interests) => {
+				res.json(interests);
 			})
 			.catch((err) => {
 				return res.status(400).json({ message: "Something went wrong finding who is going to this event.", error: err });
