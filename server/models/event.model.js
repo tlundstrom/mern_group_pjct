@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
@@ -10,13 +10,15 @@ const eventSchema = new Schema(
 			required: [true, "Event name is required."],
 		},
 		location: {
+			streetAddress: {
+				type: String,
+				required: [true, "Event location is required."],
+			},
 			lat: {
 				type: Number,
-				required: [true, "Event location is required."],
 			},
 			lng: {
 				type: Number,
-				required: [true, "Event location is required."],
 			},
 		},
 		img: {
@@ -33,6 +35,9 @@ const eventSchema = new Schema(
 		info: {
 			type: String,
 			required: [true, "Event date is required."],
+		},
+		category: {
+			type: String,
 		},
 		interested: [
 			{
@@ -56,28 +61,18 @@ const eventSchema = new Schema(
 
 eventSchema.pre("save", function (next) {
 	console.log("in presave");
-	let streetAddress = this.location;
+	let address = this.location;
 	axios
 		.get("https://maps.googleapis.com/maps/api/geocode/json", {
 			params: {
-				address: streetAddress,
+				address: address,
 				key: process.env.MAPS_API_KEY,
 			},
 		})
 		.then((res) => {
-			this.location = res.data.results[0].geometry.location;
-			next();
-		})
-		.catch((err) => console.log(err));
-});
-
-eventSchema.post("find", function (next) {
-	console.log("in postfind");
-	let latlng = this.location;
-	axios
-		.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latlng.lat},${latlng.lng}&key=${process.env.MAPS_API_KEY}`, {})
-		.then((res) => {
-			this.location = res.data.results[0].formatted_address;
+			this.location.streetAddress = res.data.results[0].formatted_address;
+			this.location.lat = res.data.results[0].geometry.location.lat;
+			this.location.lng = res.data.results[0].geometry.location.lng;
 			next();
 		})
 		.catch((err) => console.log(err));

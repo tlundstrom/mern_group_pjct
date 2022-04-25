@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const cookieParser = require("cookie-parser")
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.MY_PORT;
 
@@ -21,6 +21,8 @@ app.use(express.urlencoded({ extended: true }));
 require("./config/mongoose.config");
 
 require("./routes/users.routes")(app);
+
+require("./routes/events.routes")(app);
 
 require("./routes/interest.routes")(app);
 
