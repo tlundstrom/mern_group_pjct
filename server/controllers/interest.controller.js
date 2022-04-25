@@ -1,14 +1,32 @@
 const Interest = require("../models/interest.model");
+const Event = require("../models/event.model");
 
 module.exports = {
 	createInterest: (req, res) => {
 		const newInterestObject = new Interest(req.body);
-
+		const id = req.params.eventId;
+		newInterestObject.event = id;
 		newInterestObject.createdBy = req.jwtpayload.id;
+
+		Event.findById(id)
+			.then((event) => {
+				console.log(newInterestObject._id);
+				if (!!newInterestObject.interest) {
+					console.log(event);
+					event.interested.push(newInterestObject._id);
+				} else {
+					event.going.push(newInterestObject._id);
+				}
+				event.save();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+
 		newInterestObject
 			.save()
-			.then((event) => {
-				return res.json(event);
+			.then((interest) => {
+				return res.json(interest);
 			})
 			.catch((err) => {
 				return res.status(400).json(err);
@@ -16,10 +34,12 @@ module.exports = {
 	},
 
 	getAllInterests: (req, res) => {
-		Event.find({})
+		const id = req.params.eventId;
+		console.log(id);
+		Interest.find({})
 			.populate("createdBy", "name")
-			.then((interest) => {
-				res.json(interest);
+			.then((interests) => {
+				res.json(interests);
 			})
 			.catch((err) => {
 				return res.status(400).json({ message: "Something went wrong finding who is going to this event.", error: err });
