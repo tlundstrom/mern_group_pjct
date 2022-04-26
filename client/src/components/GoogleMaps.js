@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 
+
 const mapContainerStyle = {
 	height: "50vh",
 	width: "100%",
@@ -21,6 +22,7 @@ const GoogleMaps = (props) => {
 };
 
 const Map = ({ selected }) => {
+
 	return (
 		<div>
 			<GoogleMap zoom={10} center={selected || center} mapContainerStyle={mapContainerStyle}>
