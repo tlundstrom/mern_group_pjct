@@ -19,8 +19,7 @@ return (
             <Route path = "/home" element = {<AllEvents events = {events} setEvents = {setEvents}/>}/>
             <Route path = "/maps" element = {<GoogleMaps/>}/>      
         {/* <Route path = "/add" element = {<HostEvent/>}/>       
-        <Route path = "/edit/:id" element = {<EditEvent/>}/>
-        <Route path = "/:id" element = {<ViewTrip trips = {trips} setTrips = {setTrips}/>}/>        	       
+        <Route path = "/edit/:id" element = {<EditEvent/>}/>            	       
         */}
         </Routes>
     </div>
