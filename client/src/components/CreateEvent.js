@@ -32,7 +32,7 @@ const CreateEvent = (props)=>{
         .then((res)=>{
             console.log(res);
             console.log(res.data);
-            navigate("/AllEvents");
+            navigate("/home");
         })
         .catch((err)=>{
             console.log(err);
@@ -96,7 +96,7 @@ const CreateEvent = (props)=>{
 
                 <div>
                     <label>Img:  </label>
-                    <input value={image} onChange={(e)=> setImg(e.target.value)} type="data"/>
+                    {/* <input value={img} onChange={(e)=> setImg(e.target.value)} type="data"/> */}
                     <FileBase64
                     multiple={false}
                     onDone={({base64})=>setImg( base64)}/>
