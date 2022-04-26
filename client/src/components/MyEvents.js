@@ -5,9 +5,10 @@ import {Link} from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import NavbarComponent from "./NavbarComponent";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
+// things that can become component files from this file alone: Card.js NavBar.js
 
 const MyEvents = (props) =>{
 
@@ -15,6 +16,7 @@ const MyEvents = (props) =>{
     const [eventDetails, setEventDetails] = useState([]);
     const [show, setShow] = useState(false);
     const [eventClickedId, setEventClickedId] = useState(null)
+    const [deleted, setDeleted] = useState(false);
     
         
     const navigate = useNavigate();
@@ -42,6 +44,10 @@ const handleClick = (e,name, location, eventDescription, img, id) => {
 }
 
 
+const handleEventButton = (e) => {
+    e.preventDefault();
+    setShow(!show);
+};
 
 // handle login.
 const logoutHandler = (e) => {
@@ -62,59 +68,24 @@ const logoutHandler = (e) => {
         )
 
     }
+
+    const onDeleteHandler=(e, eventId) => {
+        console.log("in on delete handler." , eventId);
+        axios.delete('http://localhost:8000/api/events/:eventId/interests/' + eventId)
+        .then((res)=>{
+            setDeleted(!deleted);
+            navigate("/events");
+        })
+        .catch((err)=>console.log(err))
+        
+    }
+
 // map through events and use interest.rout as user related events. use events.getAllInterests
     return (
-        //copied from all events, very much the same setup, but we pull from a user collection, not just everything.
         <div>
-            {/* these components could easily be their own js files to shorten up this kind of code. */}
-            <Navbar className="bg-light" expand="lg" fixed="top"> 
-                        <Container>
-                            <Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>  
-                        
-                            <Navbar.Collapse className="d-flex justify-content-around">  
-                                <Link to={"/home"} 
-                            className = "me-5">
-                                <button                           
-                            style={{color:"gray",border:"none", background:"none"}}>
-                                Go to Homepage
-                            </button>
-                            </Link>  
-    
-                                <Link to={"/add"} 
-                                className="me-5">
-                                    <button                             
-                                style={{color:"gray",border:"none", background:"none"}}>
-                                    Host event
-                                </button>
-                                    
-                                </Link>                                                                                   
-                                
-                                <Link to = {"/"} 
-                                style={{textDecoration: "none", color:"gray"}}>
-                                    <button                          
-                                style={{border:"none",color:"gray", background:"none"}} className="me-5">
-                                    My events
-                                </button>
-                                </Link>
-    
-                                <Link to={"/"} 
-                                className = "me-5">
-                                    <img 
-                                    style={{height:"50px", width:"50px"}} 
-                                    src={"https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8="}>
-    
-                                    </img>
-                                </Link>                            
-    
-                                <button onClick={logoutHandler} 
-                                
-                                style={{color:"gray",border:"none", background:"none"}}>
-                                    Logout
-                                </button> 
-                                
-                            </Navbar.Collapse>
-                        </Container>                                             
-            </Navbar>
+            {/* simple navbar :D */}
+            <NavbarComponent logoutHandler={logoutHandler} handleEventButton={handleEventButton} />
+            
     
             <div style={{height:"50px"}}></div>  
     
@@ -147,6 +118,13 @@ const logoutHandler = (e) => {
                                 <Card.Text>{event.hostedBy}</Card.Text> 
                                 <Card.Text>{event.eventType}</Card.Text> 
                                 <Card.Text>{event.eventDescription.substring(0,100)} .....</Card.Text> 
+                                {/* buttons for edit and delete. */}
+                                <Link to = {`/events/:eventId/interests/${event._id}`} >
+                                    <button> edit trader</button>
+                                </Link>
+                                <button onClick={(e)=> onDeleteHandler(e,event._id)}>
+                                    Delete
+                                </button>
                                 
                                 </Col>
                             
@@ -180,11 +158,11 @@ const logoutHandler = (e) => {
                     
                 </Card>
     
-                <Card className="mb-5">
+                {/* <Card className="mb-5">
                     <Card.Img 
                 src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxFlMBcV79owv9LG8m93RFJ13FghwopNWLfw&usqp=CAU"}></Card.Img>
     
-                </Card>
+                </Card> */}
                 
     
                 <Card>
