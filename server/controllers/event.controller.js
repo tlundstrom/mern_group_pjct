@@ -24,6 +24,51 @@ module.exports = {
 				return res.status(400).json({ message: "Something went wrong finding all the events.", error: err });
 			});
 	},
+	findAllEventsByUser: (req, res) => {
+		const id = req.params.userId;
+		Event.find({ createdBy: id })
+			.populate("createdBy", "name")
+			.then((events) => {
+				res.json(events);
+			})
+			.catch((err) => {
+				return res.status(400).json({ message: "Something went wrong finding all the events.", error: err });
+			});
+
+		// if (req.jwtpayload.id !== req.params.createdBy) {
+		// 	console.log("not the user");
+		// 	User.findOne({ _id: req.params.createdBy })
+		// 		.then((userNotLoggedIn) => {
+		// 			Event.find({ postedBy: userNotLoggedIn._id })
+		// 				.populate("postedBy", "username")
+		// 				.then((allEventsByUser) => {
+		// 					// console.log(allEventsByUser)
+		// 					res.json(allEventsByUser);
+		// 				})
+		// 				.catch((err) => {
+		// 					console.log(err);
+		// 					res.status(400).json(err);
+		// 				});
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log(err);
+		// 			res.status(400).json(err);
+		// 		});
+		// } else {
+		// 	console.log("current user");
+		// 	console.log("req.jwtpayload.id:", req.jwtpayload.id);
+		// 	Trip.find({ postedBy: req.jwtpayload.id })
+		// 		.populate("postedBy", "username email")
+		// 		.then((allEventsByLoggedInUser) => {
+		// 			// console.log(allEventsByLoggedInUser)
+		// 			res.json(allEventsByLoggedInUser);
+		// 		})
+		// 		.catch((err) => {
+		// 			console.log(err);
+		// 			res.status(400).json(err);
+		// 		});
+		// }
+	},
 
 	getOneEvent: (req, res) => {
 		Event.find({ _id: req.params.id })

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const interestSchema = new Schema(
 	{
-		interest: {
+		interested: {
 			type: Boolean,
 		},
 		going: {
