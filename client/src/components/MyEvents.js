@@ -33,7 +33,7 @@ const MyEvents = (props) =>{
         axios.get("/api/events/:eventId/interests")
         .then(res => {
             console.log(res.data)
-            setEvents = res.data;
+            setEvents(res.data);
         })
         .catch((err)=>console.log(err))
     },[])
