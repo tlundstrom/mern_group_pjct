@@ -10,7 +10,7 @@ const CreateEvent = (props)=>{
     const [img, setImg] = useState("");
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
-    const [info, setInfo] = useState("");
+    const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ const CreateEvent = (props)=>{
             img,
             time,
             date,
-            info,
+            description,
         },
         { withCredentials: true}
         )
@@ -112,7 +112,7 @@ const CreateEvent = (props)=>{
     
                 <div>
                     <label>Event Time:  </label>
-                    <input value={time} onChange={(e)=> setTime(e.target.value)} type="text"/>
+                    <input value={time} onChange={(e)=> setTime(e.target.value)} type="time"/>
                         <br/>
                         {
                             errors.time?
@@ -124,7 +124,7 @@ const CreateEvent = (props)=>{
     
                 <div>
                     <label>Event Date:  </label>
-                    <input value={date} onChange={(e)=> setDate(e.target.value)} type="text"/>
+                    <input value={date} onChange={(e)=> setDate(e.target.value)} type="date"/>
                         <br/>
                         {
                             errors.date?
@@ -135,12 +135,12 @@ const CreateEvent = (props)=>{
                 </div>
     
                 <div>
-                    <label>Event Info:  </label>
-                    <input value={info} onChange={(e)=> setInfo(e.target.value)} type="text"/>
+                    <label>Event Description:  </label>
+                    <input value={info} onChange={(e)=> setDescription(e.target.value)} type="text"/>
                         <br/>
                         {
-                            errors.info?
-                            <p>{errors.info.message}</p>
+                            errors.description?
+                            <p>{errors.description.message}</p>
                             :null
                         }
                             <br/>
