@@ -3,7 +3,6 @@ import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import {Link} from "react-router-dom";
 import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
@@ -12,20 +11,12 @@ import { useNavigate } from 'react-router-dom';
 
 const MyEvents = (props) =>{
 
-    const {events, setEvents} = props;
+    const [myEvents, setMyEvents] = useState([]);
     const [eventDetails, setEventDetails] = useState([]);
     const [show, setShow] = useState(false);
     const [eventClickedId, setEventClickedId] = useState(null)
     
-    // const [searchQuery, setSearchQuery] = useState("")
-    // const [filteredName, setFilteredName] = useState("")
-    const [searchZipCode, setSearchZipCode] = useState("");
-    const [searchCategory, setSearchCategory] = useState("");
-    const [searchDate, setSearchDate] = useState("");
-    const [searchResult, setSearchResult] = useState([]);
-    const [queryFound, setQueryFound] = useState(false)
-    const [status, setStatus] = useState("");
-    
+        
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,21 +24,12 @@ const MyEvents = (props) =>{
         axios.get("/api/events/:eventId/interests")
         .then(res => {
             console.log(res.data)
-            setEvents(res.data);
+            setMyEvents(res.data);
         })
         .catch((err)=>console.log(err))
     },[])
 
-// handle searching from my events page. copied from all events.
-const handleSubmit = (e) => {
-    e.preventDefault();
-    const result = events.filter((event, i) => {
-    return (event.zipcode === searchZipCode && event.eventType === searchCategory && event.date === searchDate)    
-})
-console.log(result)
-setSearchResult(result);
-setQueryFound(true);
-}
+
     
 // 
 // },[])
@@ -59,11 +41,7 @@ const handleClick = (e,name, location, eventDescription, img, id) => {
     setEventClickedId(id);
 }
 
-//toggle showing something
-const handleEventButton = (e) => {
-    e.preventDefault();
-    setShow(!show);
-}
+
 
 // handle login.
 const logoutHandler = (e) => {
@@ -94,13 +72,13 @@ const logoutHandler = (e) => {
                             <Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>  
                         
                             <Navbar.Collapse className="d-flex justify-content-around">  
-                                <Link to={"/"} 
-                                className = "me-5">
-                                    <button onClick={(e) => handleEventButton(e)}                          
-                                style={{color:"gray",border:"none", background:"none"}}>
-                                    Find events near me
-                                </button>
-                                </Link>  
+                                <Link to={"/home"} 
+                            className = "me-5">
+                                <button                           
+                            style={{color:"gray",border:"none", background:"none"}}>
+                                Go to Homepage
+                            </button>
+                            </Link>  
     
                                 <Link to={"/add"} 
                                 className="me-5">
@@ -140,84 +118,11 @@ const logoutHandler = (e) => {
     
             <div style={{height:"50px"}}></div>  
     
-            {show && 
-            
-            <Form  className=" mt-4" onSubmit={handleSubmit}>
-                <Container>
-    
-                
-                    <Row>
-                        <Col>
-                        
-                            <Form.Group controlId="formBasicSelect" className="mt-4">
-                                {/* <Form.Label>Pick a Date</Form.Label> */}
-                                <Form.Control 
-                                type="date" 
-                                name="date" 
-                                placeholder="Pick a date" 
-                                onChange={(e) => setSearchDate(e.target.value)}/>                
-                            
-                            </Form.Group>
-                        
-                        </Col>
-    
-                        <Col>
-                        {/* <Card className="w-50 mt-4"> */}
-                        <Form.Group controlId="formBasicSelect" className="mt-4">
-                            <Form.Select aria-label="Default select example" onChange= {(e) => setSearchCategory(e.target.value)}>
-                                <option>Select a category</option>
-                                <option value="Arts">Arts</option>
-                                <option value="Books">Books</option>
-                                <option value="Movie">Movie</option>
-                                <option value="Music">Music</option>
-                                <option value="Nature">Nature</option>
-                                <option value="Food">Food</option>
-                                <option value="Sports">Sports</option>  
-                            </Form.Select>                
-                        </Form.Group>
-                        {/* </Card> */}
-                        </Col>
-                    
-    
-                    <Col>
-                    
-                        <Form.Group controlId="formBasicSelect" className=" mt-4">
-                            <Form.Select aria-label="Default select example" onChange= {(e) => setSearchZipCode(e.target.value)}>
-                                <option>Select a zipcode</option>
-                                <option value="94118">94118</option>
-                                <option value="95761">95761</option>
-                                <option value="94020">94020</option>
-                                <option value="95101">95101</option>
-                                <option value="95110">95110</option>
-                                <option value="94588">94588</option> 
-                                <option value="95054">95054</option>                 
-                            </Form.Select>                
-                        </Form.Group>
-                    
-                    </Col>
-    
-                    <Col>  
-                    <Form.Group className=" mt-4">
-                        <button className="btn btn-secondary">Submit</button>  
-                    </Form.Group>                    
-                    
-                    </Col>
-            
-    
-                    </Row>
-                
-            </Container>
-            </Form>
         
-            }
     {/* search results */}
             <div style={{height:"30px"}}></div> 
     
-            {searchResult?.map((event,i) => {
-                return (
-                <p>{event.zipcode}</p>
-                )
-            }) }
+            
     {/* below is the listings of the events */}
             <div className="d-flex justify-content-between w-75 mx-auto">
                 <Container>
@@ -228,7 +133,7 @@ const logoutHandler = (e) => {
                         
             { 
             // set up interests for mapping here
-                events.map((event, index) => {
+                myEvents.map((event, index) => {
                     return (
                         <Card key = {index} className="mb-5 p-3" style={eventClickedId === event.id? {border:"blue", borderRadius:"5px 5px 5px 5px", background:"gray"}: {borderRadius:"5px 5px 5px 5px"}}>
                             <Row>
@@ -247,40 +152,7 @@ const logoutHandler = (e) => {
                             
                             </Row>
     
-                            {/* <Row>
-                                <Form className="mx-auto mt-4">
-                                    <Form.Group>
-                                        <Form.Check 
-                                        className="me-5" 
-                                        inline
-                                        name="status" 
-                                        value="interested" 
-                                        label="Interested" 
-                                        checked = {status === "interested"}
-                                        onChange = {(event) = setStatus(event.target.value)}
-                                        type="radio"/>
-    
-                                        <Form.Check 
-                                        className="me-5" 
-                                        name="status" 
-                                        value="going" 
-                                        label="Going" 
-                                        checked = {status === "going"}
-                                        onChange = {(event) = setStatus(event.target.value)}
-                                        inline 
-                                        type="radio"/>
-    
-                                        <Form.Check  
-                                        name="status" 
-                                        value="not going" 
-                                        label="Not Going" 
-                                        checked = {status === "not going"}
-                                        onChange = {(event) = setStatus(event.target.value)}
-                                        inline 
-                                        type="radio"/>
-                                    </Form.Group>
-                                </Form>
-                            </Row> */}
+                        
                         </Card>
                         
     
