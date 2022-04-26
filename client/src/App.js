@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, {useState} from 'react'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import AllEvents from './components/AllEvents';
@@ -8,11 +9,20 @@ import GoogleMaps from './components/GoogleMaps';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+=======
+import React from "react";
+import "./App.css";
+import { useContext } from "react";
+import { UserContext } from "./contexts/UserContext";
+import "bootstrap/dist/css/bootstrap.min.css";
+import AuthApp from "./views/AuthApp";
+import UnauthApp from "./views/UnauthApp";
+>>>>>>> main
 
 const App = () => {
-const [events, setEvents] = useState([]);  
+	const { auth } = useContext(UserContext);
 
-
+<<<<<<< HEAD
 return (
     <BrowserRouter>
 	<div>  
@@ -38,5 +48,9 @@ return (
     </BrowserRouter>    
 )
 }
+=======
+	return auth ? <AuthApp /> : <UnauthApp />;
+};
+>>>>>>> main
 
-export default App
+export default App;

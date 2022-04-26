@@ -20,6 +20,9 @@ const eventSchema = new Schema(
 			lng: {
 				type: Number,
 			},
+			zipCode: {
+				type: Number,
+			},
 		},
 		img: {
 			type: String,
@@ -38,6 +41,7 @@ const eventSchema = new Schema(
 		},
 		category: {
 			type: String,
+			enum: ["Arts", "Books", "Movies", "Music", "Nature", "Food", "Sports"],
 		},
 		interested: [
 			{
@@ -72,6 +76,7 @@ eventSchema.pre("save", function (next) {
 			},
 		})
 		.then((res) => {
+			this.location.zipCode = res.data.results[0].address_components[6].short_name;
 			this.location.streetAddress = res.data.results[0].formatted_address;
 			this.location.lat = res.data.results[0].geometry.location.lat;
 			this.location.lng = res.data.results[0].geometry.location.lng;
