@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AllEvents from "./components/AllEvents";
 import CreateEvent from "./components/CreateEvent";
 import EditEvent from "./components/EditEvent";
+import MyEvents from "./components/MyEvents";
 import GoogleMaps from "./components/GoogleMaps";
 // import LoginReg from "./views/LoginReg"
 import "./App.css";
@@ -21,7 +22,8 @@ const App = () => {
 					{/* <Route path = "/add" element = {<HostEvent/>}/>       
         <Route path = "/edit/:id" element = {<EditEvent/>}/> 
         */}
-					<Route path="/CreateEvent" element={<CreateEvent />} />
+					<Route path="/create" element={<CreateEvent />} />
+					<Route path="/events" element={<MyEvents />} />
 				</Routes>
 			</div>
 		</BrowserRouter>

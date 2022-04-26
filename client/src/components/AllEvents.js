@@ -20,7 +20,7 @@ id:1,
 name:"Event 1", 
 // location:"San Francisco,CA 94118", 
 date:"2022-04-27",
-location:"Snohomish, WA, USA", 
+location:"San Francisco, CA, USA", 
 zipcode: "94118",
 hostedBy: "User 1", 
 eventType: "Food", 
@@ -144,7 +144,10 @@ const [searchCategory, setSearchCategory] = useState("");
 const [searchDate, setSearchDate] = useState("");
 const [searchResult, setSearchResult] = useState([]);
 
+
 //const [queryFound, setQueryFound] = useState(false)
+
+// setting up the center position fro google map
 const center = useMemo(() => ({ lat: 47.85, lng: -122.14 }), []);
 const [selected, setSelected] = useState(center);
 
@@ -170,6 +173,16 @@ useEffect(() => {
 )
 },[])
 
+// useEffect (() => {
+//         axios.get("http://localhost:8000/api/events")
+//         .then((res) => {
+//             //setIsLoading(true);
+//             console.log(res.data);            
+//             setEvents(res.data);
+//            // setIsLoading(false);
+//         })
+//         .catch((err) => console.log(err))
+//     }, [])
 
 const handleSubmit = (e) => {
     e.preventDefault();
@@ -232,9 +245,6 @@ const handleEventButton = (e) => {
 
 
 
-
-
-
 const logoutHandler = (e) => {
         axios.post("http://localhost:8000/api/users/logout",
         {},
@@ -256,8 +266,8 @@ const logoutHandler = (e) => {
 
 return (
     <div>
-        <NavbarComponent logoutHandler={logoutHandler} handleEventButton={handleEventButton}/>
-        {/* <Navbar className="bg-light" expand="lg" fixed="top"> 
+        {/* <NavbarComponent logoutHandler={logoutHandler} handleEventButton={handleEventButton}/> */}
+        <Navbar className="bg-light" expand="lg" fixed="top"> 
                     <Container>
                         <Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>  
                     
@@ -270,7 +280,7 @@ return (
                             </button>
                             </Link>  
 
-                            <Link to={"/add"} 
+                            <Link to={"/create"} 
                             className="me-5">
                                 <button                             
                             style={{color:"gray",border:"none", background:"none"}}>
@@ -279,7 +289,7 @@ return (
                                 
                             </Link>                                                                                   
                             
-                            <Link to = {"/"} 
+                            <Link to = {"/events"} 
                             style={{textDecoration: "none", color:"gray"}}>
                                 <button                          
                             style={{border:"none",color:"gray", background:"none"}} className="me-5">
@@ -287,7 +297,7 @@ return (
                             </button>
                             </Link>
 
-                            <Link to={"/events"} 
+                            <Link to={"/"} 
                             className = "me-5">
                                 <img 
                                 style={{height:"50px", width:"50px"}} 
@@ -304,7 +314,7 @@ return (
                             
                         </Navbar.Collapse>
                     </Container>                                             
-        </Navbar> */}
+        </Navbar>
 
 
 
