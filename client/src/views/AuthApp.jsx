@@ -5,7 +5,6 @@ import AllEvents from "../components/AllEvents";
 import CreateEvent from "../components/CreateEvent";
 // import EditEvent from "../components/EditEvent";
 import GoogleMaps from "../components/GoogleMaps";
-import LoginReg from "../views/LoginReg";
 
 const AuthApp = (props) => {
 	const [events, setEvents] = useState([]);
@@ -16,10 +15,10 @@ const AuthApp = (props) => {
 					<Routes>
 						<Route path="/" element={<AllEvents events={events} setEvents={setEvents} />} />
 						<Route path="/maps" element={<GoogleMaps />} />
-						<Route path="/myevents" element={<MyEvents events={events} setEvents={setEvents} />} />
+						<Route path="/events" element={<MyEvents events={events} setEvents={setEvents} />} />
 						{/* <Route path="/add" element={<HostEvent />} /> */}
 						{/* <Route path="/edit/:id" element={<EditEvent />} /> */}
-						<Route path="/CreateEvent" element={<CreateEvent />} />
+						<Route path="/create" element={<CreateEvent />} />
 					</Routes>
 				</div>
 			</BrowserRouter>
