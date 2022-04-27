@@ -72,6 +72,12 @@ module.exports = {
 
 	getOneEvent: (req, res) => {
 		Event.find({ _id: req.params.id })
+			.populate({
+				path: "going",
+				populate: { path: "createdBy" },
+			})
+			// .populate("going", "name")
+			// .populate("createdBy", "name")
 			.then((event) => {
 				return res.json(event);
 			})

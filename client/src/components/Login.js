@@ -22,10 +22,16 @@ const Login = (props) => {
 	const handleLogin = (event) => {
 		event.preventDefault();
 		axios
-			.post("http://localhost:8000/api/users/login", {
-				email: email,
-				password: password,
-			})
+			.post(
+				"http://localhost:8000/api/users/login",
+				{
+					email: email,
+					password: password,
+				},
+				{
+					withCredentials: true,
+				}
+			)
 			.then((res) => {
 				login(checked);
 				console.log(res, "res");
