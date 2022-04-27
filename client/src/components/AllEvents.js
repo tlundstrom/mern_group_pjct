@@ -193,7 +193,7 @@ const AllEvents = ({ events, setEvents }) => {
 
 	const handleCheck = (e, id) => {
 		console.log(id);
-		e.target.name == "going" ? handleGoing(id) : handleInterested(id);
+		e.target.name === "going" ? handleGoing(id) : handleInterested(id);
 		axios
 			.post(`http://localhost:8000/api/events/${id}/interests/create`, interest, { withCredentials: true })
 			.then((res) => {
