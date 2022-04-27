@@ -38,7 +38,7 @@ const Login = (props) => {
 				console.log(res.data, "is res data!");
 				setEmail("");
 				setPassword("");
-				navigate("/home");
+				navigate("/");
 			})
 			.catch((err) => {
 				console.log(err);

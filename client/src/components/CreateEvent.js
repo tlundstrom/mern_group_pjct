@@ -10,7 +10,7 @@ import { UserContext } from "../contexts/UserContext";
 const CreateEvent = (props) => {
 	const [name, setName] = useState("");
 	const [category, setCategory] = useState("");
-	const [location, setLocation] = useState("");
+	const [location, setLocation] = useState({ streetAddress: "" });
 	const [zipcode, setZipcode] = useState("");
 	const [img, setImg] = useState("");
 	const [time, setTime] = useState("");
@@ -68,7 +68,7 @@ const CreateEvent = (props) => {
 				setErrors(err.response.data.errors);
 			});
 	};
-
+	//Resolved conflicts
 	return (
 		<div>
 			<Navbar className="bg-light" expand="lg" fixed="top">
@@ -139,7 +139,7 @@ const CreateEvent = (props) => {
 
 				<Form.Group>
 					<label>Event Location: </label>
-					<Form.Control value={location} onChange={(e) => setLocation(e.target.value)} type="text" />
+					<Form.Control value={streetAddress} onChange={(e) => setStreetAddress(e.target.value)} type="text" />
 					<br />
 					{errors.location ? <p>{errors.location.message}</p> : null}
 					<br />
