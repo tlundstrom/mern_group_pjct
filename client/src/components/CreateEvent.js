@@ -68,7 +68,7 @@ const CreateEvent = (props) => {
 				setErrors(err.response.data.errors);
 			});
 	};
-
+	//Resolved conflicts
 	return (
 		<div>
 			<Navbar className="bg-light" expand="lg" fixed="top">

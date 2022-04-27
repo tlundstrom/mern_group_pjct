@@ -44,6 +44,7 @@ const Register = (props) => {
 				setErrors(err.response.data.errors);
 			});
 	};
+	//Fixed some minor issues/
 
 	return (
 		<div>
