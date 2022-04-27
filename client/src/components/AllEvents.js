@@ -1,17 +1,17 @@
-import React, {useState, useEffect, useMemo} from 'react'
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
-import GoogleMaps from "./GoogleMaps"
-import {Link} from "react-router-dom";
+import GoogleMaps from "./GoogleMaps";
+import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
+import NavbarComponent from "./NavbarComponent";
+import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
-
-
 
 const eventslist = [
 {
@@ -728,10 +728,10 @@ return (
         </Container>
         </div>
         {/* <input type="search" onChange={(e) => handleSearch(e.target.value)}/>
-        <h1>{filteredName}</h1> */}
-        
-    </div>
-)
-}
 
-export default AllEvents
+        <h1>{filteredName}</h1> */}
+		</div>
+	);
+};
+
+export default AllEvents;
