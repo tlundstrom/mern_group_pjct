@@ -3,7 +3,7 @@ const InterestController = require("../controllers/interest.controller");
 
 module.exports = (app) => {
 	app.post("/api/events/:eventId/interests/create", authenticate, InterestController.createInterest);
-	app.get("/api/events/:eventId/interests", InterestController.getAllInterests);
+	app.get("/api/interests", InterestController.getAllInterests);
 	app.put("/api/events/:eventId/interests/:id", authenticate, InterestController.updateOneInterest);
 	app.delete("/api/events/:eventId/interests/:id", authenticate, InterestController.deleteOneInterest);
 };
