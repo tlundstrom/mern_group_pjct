@@ -49,21 +49,24 @@ const MyEvents = (props) => {
 	}, []);
 
 	useEffect(() => {
-		interests.map((interest, index) => {
-			if (interest.going === true || interest.interested === true) {
-				let thisEvent = interest.event._id;
-				axios
-					.get(`http://localhost:8000/api/events/${thisEvent}`)
-					.then((res) => {
-						//console.log(res.data);
-						setInterestList([...interestList, res.data[0]]);
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			}
-		});
-		setMounted(true);
+		if (!!interests[0]) {
+			console.log(interests[0]);
+			interests.map((interest, index) => {
+				if (interest.going === true || interest.interested === true) {
+					let thisEvent = interest.event._id;
+					axios
+						.get(`http://localhost:8000/api/events/${thisEvent}`)
+						.then((res) => {
+							//console.log(res.data);
+							setInterestList([...interestList, res.data[0]]);
+						})
+						.catch((err) => {
+							console.log(err);
+						});
+				}
+			});
+			setMounted(true);
+		}
 	}, [interests]);
 
 	// when event clicked...
