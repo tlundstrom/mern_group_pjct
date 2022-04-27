@@ -429,23 +429,22 @@ const AllEvents = ({ events, setEvents }) => {
 														</Col>
 
 														<Col sm={6}>
-															<Card.Text className="hover">
-																<h1
-																	onClick={(e) => {
-																		handleClick(
-																			e,
-																			event.name,
-																			event.location.streetAddress,
-																			event.eventDescription,
-																			event.img,
-																			event.hostedBy,
-																			event.id
-																		);
-																	}}
-																>
-																	{event.name}
-																</h1>
-															</Card.Text>
+															<Card.Title
+																className="hover"
+																onClick={(e) => {
+																	handleClick(
+																		e,
+																		event.name,
+																		event.location.streetAddress,
+																		event.eventDescription,
+																		event.img,
+																		event.hostedBy,
+																		event.id
+																	);
+																}}
+															>
+																{event.name}
+															</Card.Title>
 
 															<Card.Text style={{ color: "gray" }}># {event.category}</Card.Text>
 

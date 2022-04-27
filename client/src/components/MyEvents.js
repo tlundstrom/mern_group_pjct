@@ -51,20 +51,20 @@ const MyEvents = (props) => {
 	useEffect(() => {
 		if (!!interests[0]) {
 			console.log(interests[0]);
-			interests.map((interest, index) => {
-				if (interest.going === true || interest.interested === true) {
-					let thisEvent = interest.event._id;
-					axios
-						.get(`http://localhost:8000/api/events/${thisEvent}`)
-						.then((res) => {
-							//console.log(res.data);
-							setInterestList([...interestList, res.data[0]]);
-						})
-						.catch((err) => {
-							console.log(err);
-						});
-				}
-			});
+			// interests.map((interest, index) => {
+			// 	if (interest.going === true || interest.interested === true) {
+			// 		let thisEvent = interest.event._id;
+			// 		axios
+			// 			.get(`http://localhost:8000/api/events/${thisEvent}`)
+			// 			.then((res) => {
+			// 				//console.log(res.data);
+			// 				setInterestList([...interestList, res.data[0]]);
+			// 			})
+			// 			.catch((err) => {
+			// 				console.log(err);
+			// 			});
+			// 	}
+			// });
 			setMounted(true);
 		}
 	}, [interests]);
@@ -183,23 +183,22 @@ const MyEvents = (props) => {
 													</Col>
 
 													<Col sm={6}>
-														<Card.Text className="event-name">
-															<h1
-																onClick={(e) => {
-																	handleClick(
-																		e,
-																		event.name,
-																		event.location.streetAddress,
-																		event.description,
-																		event.img,
+														<Card.Title
+															className="event-name"
+															onClick={(e) => {
+																handleClick(
+																	e,
+																	event.name,
+																	event.location.streetAddress,
+																	event.description,
+																	event.img,
 
-																		event.id
-																	);
-																}}
-															>
-																{event.name}
-															</h1>
-														</Card.Text>
+																	event.id
+																);
+															}}
+														>
+															{event.name}
+														</Card.Title>
 														<Card.Text>{event.location.streetAddress}</Card.Text>
 
 														<Card.Text>{event.category}</Card.Text>
