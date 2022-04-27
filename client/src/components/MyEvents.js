@@ -162,6 +162,7 @@ const MyEvents = (props) => {
 			<div className="d-flex justify-content-between w-75 mx-auto">
 				<Container>
 					<Row>
+					<h1> My Hosted Events</h1>
 						<Col style={{ height: "130vh", overflowY: "scroll" }}>
 							<Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
 								{
@@ -219,6 +220,7 @@ const MyEvents = (props) => {
 						</Col>
 
 						<Col>
+						<h1> Events I'm Attending</h1>
 							<Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
 								{/* <Card className="mb-5">
 									<Row>
