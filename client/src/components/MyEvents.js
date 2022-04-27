@@ -69,13 +69,14 @@ const MyEvents = (props) => {
 			.catch((err) => console.log(err));
 	};
 
-	const onDeleteHandler = (e, eventId) => {
-		console.log("in on delete handler.", eventId);
+	const onDeleteHandler = async (e, eventId) => {
+		console.log(eventId);
+		setDeleted(eventId);
 		axios
-			.delete("http://localhost:8000/api/events/" + eventId)
+			.delete("http://localhost:8000/api/events/" + eventId, { withCredentials: true })
 			.then((res) => {
-				setDeleted(!deleted);
-				navigate("/events");
+				console.log(res);
+				setMyEvents(myEvents.filter((evnt) => evnt._id !== deleted));
 			})
 			.catch((err) => console.log(err));
 	};
