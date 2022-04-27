@@ -76,8 +76,10 @@ module.exports = {
 				path: "going",
 				populate: { path: "createdBy" },
 			})
-			// .populate("going", "name")
-			// .populate("createdBy", "name")
+			.populate({
+				path: "interested",
+				populate: { path: "createdBy" },
+			})
 			.then((event) => {
 				return res.json(event);
 			})

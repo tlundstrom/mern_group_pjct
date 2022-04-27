@@ -10,10 +10,6 @@
 		"jsonwebtoken": "^8.5.1",
 		"mongoose": "^6.3.0",
 		"npm": "^8.7.0",
-<<<<<<< HEAD
 		"react-file-base64": "^1.0.3"
-=======
-		"react-file-base64": "^1.0.3" 
->>>>>>> b2ec7478d924d18d26930069c929a8fa6bfa68e6
 	}
 }
