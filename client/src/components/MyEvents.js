@@ -83,7 +83,40 @@ const MyEvents = (props) => {
 	// map through events and use interest.rout as user related events. use events.getAllInterests
 	return (
 		<div>
-			{/* simple navbar :D */}
+			<Navbar className="bg-light" expand="lg" fixed="top">
+				<Container>
+					<Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>
+
+					<Navbar.Collapse className="d-flex justify-content-around">
+						<Link to={"/"} className="me-5">
+							<button style={{ color: "gray", border: "none", background: "none" }}>Go to Homepage</button>
+						</Link>
+
+						<Link to={"/create"} className="me-5">
+							<button style={{ color: "gray", border: "none", background: "none" }}>Host event</button>
+						</Link>
+
+						<Link to={"/events"} style={{ textDecoration: "none", color: "gray" }}>
+							<button style={{ border: "none", color: "gray", background: "none" }} className="me-5">
+								My events
+							</button>
+						</Link>
+
+						<Link to={"/events"} className="me-5">
+							<img
+								style={{ height: "50px", width: "50px" }}
+								src={
+									"https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8="
+								}
+							></img>
+						</Link>
+
+						<button onClick={logoutHandler} style={{ color: "gray", border: "none", background: "none" }}>
+							Logout
+						</button>
+					</Navbar.Collapse>
+				</Container>
+			</Navbar>
 			{/* <NavbarComponent logoutHandler={logoutHandler} handleEventButton={handleEventButton} /> */}
 
 			<div style={{ height: "50px" }}></div>
@@ -138,8 +171,8 @@ const MyEvents = (props) => {
 														<Card.Text>{event.category}</Card.Text>
 														<Card.Text>{event.description.substring(0, 100)} .....</Card.Text>
 														{/* buttons for edit and delete. */}
-														<Link to={`/events/:eventId/interests/${event._id}`}>
-															<button> edit trader</button>
+														<Link to={`/events/${event._id}`}>
+															<button> edit event</button>
 														</Link>
 														<button onClick={(e) => onDeleteHandler(e, event._id)}>Delete</button>
 													</Col>

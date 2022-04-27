@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MyEvents from "../components/MyEvents";
 import AllEvents from "../components/AllEvents";
 import CreateEvent from "../components/CreateEvent";
-// import EditEvent from "../components/EditEvent";
+import EditEvent from "../components/EditEvent";
 import GoogleMaps from "../components/GoogleMaps";
 
 const AuthApp = (props) => {
@@ -17,6 +17,7 @@ const AuthApp = (props) => {
 						<Route path="/" element={<AllEvents events={events} setEvents={setEvents} />} />
 						<Route path="/maps" element={<GoogleMaps />} />
 						<Route path="/events" element={<MyEvents />} />
+						<Route path="/events/:id" element={<EditEvent />} />
 						<Route path="/create" element={<CreateEvent />} />
 					</Routes>
 				</div>

@@ -77,7 +77,7 @@ const CreateEvent = (props) => {
 					<Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>
 
 					<Navbar.Collapse className="d-flex justify-content-around">
-						<Link to={"/home"} className="me-5">
+						<Link to={"/"} className="me-5">
 							<button style={{ color: "gray", border: "none", background: "none" }}>Go to Homepage</button>
 						</Link>
 
@@ -85,7 +85,7 @@ const CreateEvent = (props) => {
 							<button style={{ color: "gray", border: "none", background: "none" }}>Host event</button>
 						</Link>
 
-						<Link to={"/"} style={{ textDecoration: "none", color: "gray" }}>
+						<Link to={"/events"} style={{ textDecoration: "none", color: "gray" }}>
 							<button style={{ border: "none", color: "gray", background: "none" }} className="me-5">
 								My events
 							</button>
