@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AllEvents from "./components/AllEvents";
+//import EventAll from "./components/EventAll";
 import CreateEvent from "./components/CreateEvent";
 import EditEvent from "./components/EditEvent";
 import MyEvents from "./components/MyEvents";
@@ -19,11 +20,13 @@ const App = () => {
 					{/* <Route path = "/" element = {<LoginReg/>}/> */}
 					<Route path="/home" element={<AllEvents events={events} setEvents={setEvents} />} />
 					<Route path="/maps" element={<GoogleMaps />} />
-					{/* <Route path = "/add" element = {<HostEvent/>}/>       
-        <Route path = "/edit/:id" element = {<EditEvent/>}/> 
-        */}
-					<Route path="/create" element={<CreateEvent />} />
 					<Route path="/events" element={<MyEvents />} />
+					<Route path="/create" element={<CreateEvent />} />
+					
+					{/* <Route path="/home1" element={<EventAll events={events} setEvents={setEvents} />} /> */}
+					{/* <Route path = "/add" element = {<HostEvent/>}/>       
+                        <Route path = "/edit/:id" element = {<EditEvent/>}/> */}
+
 				</Routes>
 			</div>
 		</BrowserRouter>

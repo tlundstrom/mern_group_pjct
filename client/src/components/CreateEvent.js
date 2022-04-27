@@ -10,15 +10,13 @@ const CreateEvent = (props)=>{
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [location, setLocation] = useState("");
+    const [zipcode, setZipcode] = useState("");
     const [img, setImg] = useState("");
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [description, setDescription] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-     
-    const [show, setShow] = useState(false);
-
 
 
 
@@ -162,9 +160,9 @@ const logoutHandler = (e) => {
                             <br/>
                 </Form.Group>
 
-                <div>
+                <Form.Group>
                     <label>Event Location:  </label>
-                    <Form.Control value={location} onChange={(e)=> setLocation(e.target.value)} type="number"/>
+                    <Form.Control value={location} onChange={(e)=> setLocation(e.target.value)} type="text"/>
                         <br/>
                         {
                             errors.location?
@@ -172,9 +170,21 @@ const logoutHandler = (e) => {
                             :null
                         }
                             <br/>
-                </div>
+                </Form.Group>
 
-                <div>
+                <Form.Group>
+                    <label>Event Zipcode:  </label>
+                    <Form.Control value={zipcode} onChange={(e)=> setZipcode(e.target.value)} type="number"/>
+                        <br/>
+                        {
+                            errors.zipcode?
+                            <p>{errors.zipcode.message}</p>
+                            :null
+                        }
+                            <br/>
+                </Form.Group>
+
+                <Form.Group>
                     {/* <label>Img:  </label> */}
                     
                     <FileBase64
@@ -189,9 +199,9 @@ const logoutHandler = (e) => {
                             :null
                         }
                             <br/>
-                </div>
+                </Form.Group>
     
-                <div>
+                <Form.Group>
                     <label>Event Time:  </label>
                     <Form.Control  value={time} onChange={(e)=> setTime(e.target.value)} type="time"/>
                         <br/>
@@ -201,9 +211,9 @@ const logoutHandler = (e) => {
                             :null
                         }
                             <br/>
-                </div>
+                </Form.Group>
     
-                <div>
+                <Form.Group>
                     <label>Event Date:  </label>
                     <Form.Control value={date} onChange={(e)=> setDate(e.target.value)} type="date"/>
                         <br/>
@@ -213,9 +223,9 @@ const logoutHandler = (e) => {
                             :null
                         }
                             <br/>
-                </div>
+                </Form.Group>
     
-                <div>
+                <Form.Group>
                     <label>Event Description:  </label>
                     <Form.Control value={description} onChange={(e)=> setDescription(e.target.value)} type="text"/>
                         <br/>
@@ -225,10 +235,10 @@ const logoutHandler = (e) => {
                             :null
                         }
                             <br/>
-                </div>
+                </Form.Group>
     
                 
-                <button>Create Event!</button> 
+                <button className="btn btn-primary">Create Event!</button> 
             </Form>
         
     

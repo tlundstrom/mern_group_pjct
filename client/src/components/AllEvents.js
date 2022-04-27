@@ -137,15 +137,14 @@ const [eventDetails, setEventDetails] = useState([]);
 const [show, setShow] = useState(false);
 const [eventClickedId, setEventClickedId] = useState(null)
 
-// const [searchQuery, setSearchQuery] = useState("")
-// const [filteredName, setFilteredName] = useState("")
+
 const [searchZipCode, setSearchZipCode] = useState("");
 const [searchCategory, setSearchCategory] = useState("");
 const [searchDate, setSearchDate] = useState("");
 const [searchResult, setSearchResult] = useState([]);
 
 
-//const [queryFound, setQueryFound] = useState(false)
+const [queryFound, setQueryFound] = useState(false)
 
 // setting up the center position fro google map
 const center = useMemo(() => ({ lat: 47.85, lng: -122.14 }), []);
@@ -184,6 +183,7 @@ useEffect(() => {
 //         .catch((err) => console.log(err))
 //     }, [])
 
+
 const handleSubmit = (e) => {
     e.preventDefault();
     const result = events.filter((event, i) => {
@@ -191,7 +191,7 @@ const handleSubmit = (e) => {
 })
 console.log(result)
 setSearchResult(result);
-//setQueryFound(true);
+setQueryFound(true);
 }
     
 // 
@@ -242,6 +242,15 @@ const handleEventButton = (e) => {
     setShow(!show);
 }
 
+const handleCheckedGoing = (eventObj) => {
+eventObj.going = !eventObj.going
+setEvents([...events])
+}
+
+const handleCheckedInterested = (eventObj) => {
+eventObj.interested = !eventObj.interested
+setEvents([...events])
+}
 
 
 
@@ -263,6 +272,8 @@ const logoutHandler = (e) => {
         )
 
     }
+
+    
 
 return (
     <div>
@@ -364,18 +375,12 @@ return (
 
                 <Col>
                 
-                    <Form.Group controlId="formBasicSelect" className=" mt-4">
-                        <Form.Select aria-label="Default select example" 
-                        onChange= {(e) => setSearchZipCode(e.target.value)}>
-                            <option>Select a zipcode</option>
-                            <option value="94118">94118</option>
-                            <option value="95761">95761</option>
-                            <option value="94020">94020</option>
-                            <option value="95101">95101</option>
-                            <option value="95110">95110</option>
-                            <option value="94588">94588</option> 
-                            <option value="95054">95054</option>                 
-                        </Form.Select>                
+                    <Form.Group controlId="formBasicSelect" className=" mt-4">                        
+                        <Form.Control aria-label="Default select example" 
+                        type="search"
+                        placeholder = "Enter a Zipcode"
+                        onChange= {(e) => setSearchZipCode(e.target.value)}>                                         
+                        </Form.Control>                
                     </Form.Group>
                 
                 </Col>
@@ -410,8 +415,7 @@ return (
                     <Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
                         
                     
-        { 
-            events.map((event, index) => {
+         {queryFound? searchResult.map((event, index) => {
                 return (
                     <Card key = {index} 
                     className="mb-5 p-3 border-primary"
@@ -422,11 +426,26 @@ return (
                             </Col>
 
                             <Col sm={6}>
-                            <Card.Text><h1 onClick= {(e) => handleClick(e,event.name, event.location, event.eventDescription,event.img, event.hostedBy, event.id)}>{event.name}</h1></Card.Text> 
+                            <Card.Text className="hover">
+                                <h1 onClick= {(e) => handleClick(e,event.name, event.location, event.eventDescription,event.img, event.hostedBy, event.id)}>
+                                {event.name}
+                                </h1>
+                            </Card.Text> 
+
+                            <Card.Text style={{color:"gray"}}>
+                            # {event.eventType}
+                            </Card.Text> 
+
                             {/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
-                            <Card.Text onClick={(e) => handleSelectLocation(e, event.location, event.id)}>{event.location}-{event.zipcode}</Card.Text>
-                            <Card.Text>{event.hostedBy}</Card.Text> 
-                            <Card.Text>{event.eventType}</Card.Text> 
+                            <Card.Text 
+                            onClick={(e) => handleSelectLocation(e, event.location, event.id)}>
+                                {event.location}-{event.zipcode}
+                            </Card.Text>
+
+                            <Card.Text>
+                                Host: {event.hostedBy}
+                            </Card.Text> 
+                            
                             <Card.Text>
                                 {event.eventDescription.substring(0,100)} 
                                 ..... <span style={{color:"blue"}} 
@@ -437,7 +456,7 @@ return (
                         </Row>
 
                         <Row>
-                            <Form className="mx-auto mt-4">
+                            {/* <Form className="mx-auto mt-4">
                                 <Form.Group>
                                     <Form.Check
                                     type="checkbox"
@@ -477,6 +496,35 @@ return (
                                 />
                                 </Form.Group>
                             
+                            </Form> */}
+
+                            <Form className="mx-auto mt-4 d-flex p-2">
+                                    <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Interested" 
+                                    inline
+                                    checked={event.interested}
+                                    onChange= {() => {
+                                        handleCheckedInterested(event)
+                                        
+                                        }}
+                                    />
+                                </Form.Group>
+                                
+                                <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Going"  
+                                    inline
+                                    checked={event.going} 
+                                    onChange= {() => {
+                                handleCheckedGoing(event)
+                                        
+                                        }}     
+                                />
+                                </Form.Group>
+                            
                             </Form>
                         </Row>
                     </Card>
@@ -484,7 +532,127 @@ return (
 
                 )
             })
-        }
+        
+    :events.map((event, index) => {
+                return (
+                    <Card key = {index}
+                    className="mb-5 p-3 shadow"
+                    style={eventClickedId === event.id? { borderRadius:"5px 5px 5px 5px", background:"lightgray"}: {borderRadius:"5px 5px 5px 5px"}}> 
+                    
+                        <Row>
+                            <Col sm={6}>
+                            <Card.Img src={event.img}></Card.Img>
+                            </Col>
+
+                            <Col sm={6}>
+                            <Card.Text className="event-name">
+                                <h1 onClick= {(e) => handleClick(e,event.name, event.location, event.eventDescription,event.img, event.hostedBy, event.id)}>
+                                {event.name}
+                                </h1>
+                            </Card.Text> 
+
+                            <Card.Text>
+                                # {event.eventType}
+                            </Card.Text> 
+                            {/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
+                            <Card.Text onClick={(e) => handleSelectLocation(e, event.location, event.id)}>
+                            {event.location}-{event.zipcode}
+                            </Card.Text>
+
+                            <Card.Text> Host: {event.hostedBy}</Card.Text> 
+                            
+                            <Card.Text>
+                                {event.eventDescription.substring(0,100)} 
+                                ..... <span style={{color:"blue"}} 
+                                >details</span>
+                            </Card.Text>                            
+                            </Col>
+                        
+                        </Row>
+
+                        <Row>
+                            {/* <Form className="mx-auto mt-4 d-flex p-2">
+                                <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Going"  
+                                    inline
+                                    checked={event.going} 
+                                    onChange= {(e) => {
+                                        let checked = e.target.checked;
+                                        setEvents(events.map((evnt) => {
+                                            if(evnt.id === event.id) {
+                                                event.going = checked
+                                            }
+                                            return evnt
+                                        })
+                                        )
+                                        }}      
+                                />
+                                </Form.Group>
+                            
+                                <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Interested" 
+                                    inline
+                                    checked={event.interested}
+                                    onChange= {(e) => {
+                                        let checked = e.target.checked;
+                                        console.log(checked)
+                                        setEvents(events.map((evnt) => {
+                                            if(evnt.id === event.id) {
+                                                event.interested = checked
+                                            }
+                                            return evnt
+                                        })
+                                        )
+                                        }}
+                                    />
+                                </Form.Group>
+                                
+                                
+                            </Form> */}
+
+                            <Form className="mx-auto mt-4 d-flex p-2">
+                                    <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Interested" 
+                                    inline
+                                    checked={event.interested}
+                                    onChange= {() => {
+                                    handleCheckedInterested(event)
+                                        
+                                        }}
+                                    />
+                                </Form.Group>
+                                
+                                <Form.Group>
+                                    <Form.Check
+                                    type="checkbox"
+                                    label="Going"  
+                                    inline
+                                    checked={event.going} 
+                                    onChange= {() => {
+                                    handleCheckedGoing(event)
+                                        
+                                        }}     
+                                />
+                                </Form.Group>
+                            
+                            </Form>
+                        </Row>
+                    </Card>
+                    
+
+                )
+            })
+        
+    }   
+                        
+                    
+        
         </Card>
         </Col>
 
