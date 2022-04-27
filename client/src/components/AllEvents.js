@@ -1,148 +1,22 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import Navbar from "react-bootstrap/Navbar";
+// import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import GoogleMaps from "./GoogleMaps";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getGeocode, getLatLng } from "use-places-autocomplete";
-//import NavbarComponent from "./NavbarComponent";
-import { UserContext } from "../contexts/UserContext";
+import NavBarComponent from "./NavBarComponent";
+// import { UserContext } from "../contexts/UserContext";
 import axios from "axios";
 
-const eventslist = [
-	{
-		id: 1,
-		name: "Event 1",
-		// location:"San Francisco,CA 94118",
-		date: "2022-04-27",
-		location: "San Francisco, CA, USA",
-		zipcode: "94118",
-		hostedBy: "User 1",
-		eventType: "Food",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. Faucibus et molestie ac feugiat sed. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. A lacus vestibulum sed arcu non odio euismod. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. Nunc sed blandit libero volutpat sed cras ornare arcu dui. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
 
-	{
-		id: 2,
-		name: "Event 2",
-		// location:"Folsome,CA 95761",
-		date: "2022-05-15",
-		location: "Folsom,CA,USA",
-		zipcode: "95761",
-		hostedBy: "User 2",
-		eventType: "Music",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. Faucibus et molestie ac feugiat sed. Adipiscing enim eu turpis egestas pretium aenean pharetra magna ac. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. A lacus vestibulum sed arcu non odio euismod. Proin sagittis nisl rhoncus mattis rhoncus urna neque viverra justo. Vitae purus faucibus ornare suspendisse sed nisi lacus sed viverra. Nunc sed blandit libero volutpat sed cras ornare arcu dui. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 3,
-		name: "Event 3",
-		// location:"Palo Alto,CA 94020",
-		date: "2022-07-22",
-		location: "Palo Alto,CA,USA",
-		zipcode: "94020",
-		hostedBy: "User3",
-		eventType: "Movie",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 4,
-		name: "Event 4",
-		// location:"San Jose,CA 95101",
-		location: "San Jose,CA,USA",
-		date: "2022-08-23",
-		zipcode: "95101",
-		hostedBy: "User4",
-		eventType: "Sports",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 5,
-		name: "Event 5",
-		// location:"Pleasanton,CA 94588",
-		location: "Pleasanton,CA,USA",
-		date: "2022-05-29",
-		zipcode: "94588",
-		hostedBy: "User5",
-		eventType: "Nature",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 6,
-		name: "Event 6",
-		// location:"San Jose,CA 95110",
-		location: "San Jose,CA,USA",
-		date: "2022-06-09",
-		zipcode: "95110",
-		hostedBy: "User6",
-		eventType: "Arts",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 7,
-		name: "Event 7",
-		// location:"San Jose,CA 95101",
-		location: "San Jose,CA,USA",
-		date: "2022-06-29",
-		zipcode: "95101",
-		hostedBy: "User7",
-		eventType: "Music",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://crosscut.com/sites/default/files/styles/max_992x992/public/images/articles/victoriaholt_upstream_03.jpg?itok=W0AS5yzI",
-	},
-
-	{
-		id: 8,
-		name: "Event 8",
-		// location:"Pleasanton,CA 94588",
-		location: "Pleasanton,CA,USA",
-		date: "2022-09-19",
-		zipcode: "94588",
-		hostedBy: "User8",
-		eventType: "Movie",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-
-	{
-		id: 9,
-		name: "Event 9",
-		// location:"San Jose,CA 95054",
-		location: "San Jose,CA,USA",
-		date: "2022-06-28",
-		zipcode: "95054",
-		hostedBy: "User9",
-		eventType: "Food",
-		eventDescription:
-			"Leo a diam sollicitudin tempor id eu nisl. Nunc scelerisque viverra mauris in. Enim blandit volutpat maecenas volutpat blandit. Id cursus metus aliquam eleifend mi in nulla posuere. ",
-		img: "https://png.pngtree.com/png-clipart/20200826/ourmid/pngtree-world-food-day-hand-painted-chopping-board-food-fruits-and-vegetables-png-image_2333082.jpg",
-	},
-];
 
 const AllEvents = ({ events, setEvents }) => {
-	const { logout } = useContext(UserContext);
+	// const { logout } = useContext(UserContext);
 	const [eventDetails, setEventDetails] = useState([]);
 	const [show, setShow] = useState(false);
 	const [eventClickedId, setEventClickedId] = useState(null);
@@ -152,33 +26,14 @@ const AllEvents = ({ events, setEvents }) => {
 	const [searchDate, setSearchDate] = useState("");
 	const [searchResult, setSearchResult] = useState([]);
 
+
 	const [queryFound, setQueryFound] = useState(false);
 
 	// setting up the center position fro google map
 	const center = useMemo(() => ({ lat: 47.85, lng: -122.14 }), []);
 	const [selected, setSelected] = useState(center);
 
-	const navigate = useNavigate();
-
-	// useEffect(() => {
-	// 	setEvents(
-	// 		eventslist.map((evnt) => {
-	// 			return {
-	// 				interested: false,
-	// 				going: false,
-	// 				id: evnt.id,
-	// 				name: evnt.name,
-	// 				date: evnt.date,
-	// 				location: evnt.location,
-	// 				zipcode: evnt.zipcode,
-	// 				hostedBy: evnt.hostedBy,
-	// 				eventType: evnt.eventType,
-	// 				eventDescription: evnt.eventDescription,
-	// 				img: evnt.img,
-	// 			};
-	// 		})
-	// 	);
-	// }, []);
+	// const navigate = useNavigate();
 
 	useEffect(() => {
 		axios
@@ -213,16 +68,6 @@ const AllEvents = ({ events, setEvents }) => {
 		setInterest({ interested: !interest.interested, going: false });
 	};
 
-	// useEffect (() => {
-	//         axios.get("http://localhost:8000/api/events")
-	//         .then((res) => {
-	//             //setIsLoading(true);
-	//             console.log(res.data);
-	//             setEvents(res.data);
-	//            // setIsLoading(false);
-	//         })
-	//         .catch((err) => console.log(err))
-	//     }, [])
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -234,8 +79,6 @@ const AllEvents = ({ events, setEvents }) => {
 		setQueryFound(true);
 	};
 
-	//
-	// },[])
 
 	const handleClick = (e, name, location, description, img, createdBy, id) => {
 		e.preventDefault();
@@ -243,16 +86,6 @@ const AllEvents = ({ events, setEvents }) => {
 		setEventClickedId(id);
 	};
 
-	// const handleSearch = (newSearchQuery) => {
-	//     setSearchQuery(newSearchQuery)
-	//     lists.map((list) => {
-	//         if (list.includes(searchQuery)) {
-	//             setFilteredName(list)
-	//         }
-
-	//     })
-	//     setSearchQuery("")
-	// }
 
 	const handleSelectLocation = (e, location, idFromClickedLocation) => {
 		e.preventDefault();
@@ -273,80 +106,13 @@ const AllEvents = ({ events, setEvents }) => {
 			});
 	};
 
-	const handleEventButton = (e) => {
-		e.preventDefault();
-		setShow(!show);
-	};
+	
 
-	// const handleCheckedGoing = (eventObj) => {
-	// 	eventObj.going = !eventObj.going;
-	// 	setEvents([...events]);
-	// };
-
-	// const handleCheckedInterested = (eventObj) => {
-	// 	eventObj.interested = !eventObj.interested;
-	// 	setEvents([...events]);
-	// };
-
-	const logoutHandler = (e) => {
-		axios
-			.post(
-				"http://localhost:8000/api/users/logout",
-				{},
-
-				{ withCredentials: true }
-			)
-
-			.then((res) => {
-				logout();
-				console.log(res);
-				console.log(res.data);
-				navigate("/");
-			})
-
-			.catch((err) => console.log(err));
-	};
+	
 
 	return (
 		<div>
-			{/* <NavbarComponent logoutHandler={logoutHandler} handleEventButton={handleEventButton}/> */}
-			<Navbar className="bg-light" expand="lg" fixed="top">
-				<Container>
-					<Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>
-
-					<Navbar.Collapse className="d-flex justify-content-around">
-						<Link to={"/"} className="me-5">
-							<button onClick={(e) => handleEventButton(e)} style={{ color: "gray", border: "none", background: "none" }}>
-								Find events near me
-							</button>
-						</Link>
-
-						<Link to={"/create"} className="me-5">
-							<button style={{ color: "gray", border: "none", background: "none" }}>Host event</button>
-						</Link>
-
-						<Link to={"/events"} style={{ textDecoration: "none", color: "gray" }}>
-							<button style={{ border: "none", color: "gray", background: "none" }} className="me-5">
-								My events
-							</button>
-						</Link>
-
-						<Link to={"/"} className="me-5">
-							<img
-								style={{ height: "50px", width: "50px" }}
-								src={
-									"https://media.istockphoto.com/vectors/user-icon-flat-isolated-on-white-background-user-symbol-vector-vector-id1300845620?k=20&m=1300845620&s=612x612&w=0&h=f4XTZDAv7NPuZbG0habSpU0sNgECM0X7nbKzTUta3n8="
-								}
-							></img>
-						</Link>
-
-						<button onClick={logoutHandler} style={{ color: "gray", border: "none", background: "none" }}>
-							Logout
-						</button>
-					</Navbar.Collapse>
-				</Container>
-			</Navbar>
-
+			<NavBarComponent />
 			<div style={{ height: "50px" }}></div>
 
 			{/* show the forms only when "find my events" are clicked */}
@@ -429,7 +195,7 @@ const AllEvents = ({ events, setEvents }) => {
 														</Col>
 
 														<Col sm={6}>
-															<Card.Text className="hover">
+															<Card.Title className="hover">
 																<h1
 																	onClick={(e) => {
 																		handleClick(
@@ -445,23 +211,23 @@ const AllEvents = ({ events, setEvents }) => {
 																>
 																	{event.name}
 																</h1>
-															</Card.Text>
+															</Card.Title>
 
-															<Card.Text style={{ color: "gray" }}># {event.category}</Card.Text>
+															<Card.Title style={{ color: "gray" }}># {event.category}</Card.Title>
 
 															{/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
-															<Card.Text
+															<Card.Title
 																onClick={(e) => handleSelectLocation(e, event.location.streetAddress, event.id)}
 															>
 																{event.location.streetAddress}
-															</Card.Text>
+															</Card.Title>
 
-															<Card.Text>Host: {event.hostedBy}</Card.Text>
+															<Card.Title>Host: {event.hostedBy}</Card.Title>
 
-															<Card.Text>
+															<Card.Title>
 																{event.eventDescription.substring(0, 100)}
 																..... <span style={{ color: "blue" }}>details</span>
-															</Card.Text>
+															</Card.Title>
 														</Col>
 													</Row>
 
@@ -532,7 +298,7 @@ const AllEvents = ({ events, setEvents }) => {
 													</Row>
 												</Card>
 											);
-									  })
+									})
 									: events.map((event, index) => {
 											return (
 												<Card
@@ -550,7 +316,7 @@ const AllEvents = ({ events, setEvents }) => {
 														</Col>
 
 														<Col sm={6}>
-															<Card.Text className="event-name">
+															<Card.Title className="event-name">
 																<h1
 																	onClick={(e) => {
 																		handleClick(
@@ -566,22 +332,22 @@ const AllEvents = ({ events, setEvents }) => {
 																>
 																	{event.name}
 																</h1>
-															</Card.Text>
+															</Card.Title>
 
-															<Card.Text># {event.eventType}</Card.Text>
+															<Card.Title># {event.eventType}</Card.Title>
 															{/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
-															<Card.Text
+															<Card.Title
 																onClick={(e) => handleSelectLocation(e, event.location.streetAddress, event.id)}
 															>
 																{event.location.streetAddress}
-															</Card.Text>
+															</Card.Title>
 
-															<Card.Text> Host: {event.createdBy.name}</Card.Text>
+															<Card.Title> Host: {event.createdBy.name}</Card.Title>
 
-															<Card.Text>
+															<Card.Title>
 																{event.description.substring(0, 100)}
 																..... <span style={{ color: "blue" }}>details</span>
-															</Card.Text>
+															</Card.Title>
 														</Col>
 													</Row>
 
@@ -655,7 +421,7 @@ const AllEvents = ({ events, setEvents }) => {
 													</Row>
 												</Card>
 											);
-									  })}
+									})}
 							</Card>
 						</Col>
 
@@ -669,12 +435,12 @@ const AllEvents = ({ events, setEvents }) => {
 											</Col>
 											<Col>
 												<Row>
-													<Card.Text>{eventDetails?.name}</Card.Text>
-													<Card.Text>{eventDetails?.location.streetAddress}</Card.Text>
+													<Card.Title>{eventDetails?.name}</Card.Title>
+													<Card.Title>{eventDetails?.location.streetAddress}</Card.Title>
 												</Row>
 
 												<Row>
-													<Card.Text>{eventDetails?.createdBy}</Card.Text>
+													<Card.Title>{eventDetails?.createdBy}</Card.Title>
 												</Row>
 											</Col>
 										</Row>
@@ -688,11 +454,11 @@ const AllEvents = ({ events, setEvents }) => {
 											</Col>
 											<Col>
 												<Row>
-													<Card.Text>{events[0]?.name}</Card.Text>
-													<Card.Text>{events[0]?.location.streetAddress}</Card.Text>
+													<Card.Title>{events[0]?.name}</Card.Title>
+													<Card.Title>{events[0]?.location.streetAddress}</Card.Title>
 												</Row>
 												<Row>
-													<Card.Text>{events[0]?.hostedBy}</Card.Text>
+													<Card.Title>{events[0]?.hostedBy}</Card.Title>
 												</Row>
 											</Col>
 										</Row>
@@ -705,12 +471,12 @@ const AllEvents = ({ events, setEvents }) => {
 
 								{eventClickedId ? (
 									<Card>
-										<Card.Text>{eventDetails.description}</Card.Text>
+										<Card.Title>{eventDetails.description}</Card.Title>
 									</Card>
 								) : (
 									// Loads the information of latest event when no event is selected
 									<Card>
-										<Card.Text>{events[0]?.description}</Card.Text>
+										<Card.Title>{events[0]?.description}</Card.Title>
 									</Card>
 								)}
 							</Card>

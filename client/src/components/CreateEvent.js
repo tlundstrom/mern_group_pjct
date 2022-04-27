@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import FileBase64 from "react-file-base64";
 import Navbar from "react-bootstrap/Navbar";
+import NavBarComponent from "./NavBarComponent";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import { UserContext } from "../contexts/UserContext";
@@ -72,7 +73,8 @@ const CreateEvent = (props) => {
 	//Resolved conflicts
 	return (
 		<div>
-			<Navbar className="bg-light" expand="lg" fixed="top">
+			<NavBarComponent />
+			{/* <Navbar className="bg-light" expand="lg" fixed="top">
 				<Container>
 					<Navbar.Brand className="mx-5">My Eventbook</Navbar.Brand>
 
@@ -105,7 +107,7 @@ const CreateEvent = (props) => {
 						</button>
 					</Navbar.Collapse>
 				</Container>
-			</Navbar>
+			</Navbar> */}
 
 			<div style={{ height: "100px" }}></div>
 
