@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { UserContext } from "../contexts/UserContext";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 // things that can become component files from this file alone: Card.js NavBar.js
 
 const MyEvents = (props) => {
+	const { logout } = useContext(UserContext);
 	const [myEvents, setMyEvents] = useState([]);
 	const [eventDetails, setEventDetails] = useState([]);
 	const [show, setShow] = useState(false);
@@ -20,20 +22,22 @@ const MyEvents = (props) => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		// axios call to get all interests
+		// axios call to get my Events
 		axios
-			.get("/api/events/:eventId/interests")
+			.get(`http://localhost:8000/api/users/`, { withCredentials: true })
 			.then((res) => {
-				console.log(res.data);
-				setMyEvents(res.data);
+				console.log(res.data._id);
+				let id = res.data._id;
+				axios
+					.get(`http://localhost:8000/api/events/user/${id}`)
+					.then((res) => setMyEvents(res.data))
+					.catch((err) => console.error(err));
 			})
 			.catch((err) => console.log(err));
 	}, []);
 
-	//
-	// },[])
-
 	// when event clicked...
+
 	const handleClick = (e, name, location, eventDescription, img, id) => {
 		e.preventDefault();
 		setEventDetails({ name: name, location: location, eventDescription: eventDescription, img: img });
@@ -56,6 +60,7 @@ const MyEvents = (props) => {
 			)
 
 			.then((res) => {
+				logout();
 				console.log(res);
 				console.log(res.data);
 				navigate("/");
@@ -67,7 +72,7 @@ const MyEvents = (props) => {
 	const onDeleteHandler = (e, eventId) => {
 		console.log("in on delete handler.", eventId);
 		axios
-			.delete("http://localhost:8000/api/events/:eventId/interests/" + eventId)
+			.delete("http://localhost:8000/api/events/" + eventId)
 			.then((res) => {
 				setDeleted(!deleted);
 				navigate("/events");
@@ -111,28 +116,27 @@ const MyEvents = (props) => {
 													</Col>
 
 													<Col sm={6}>
-														<Card.Text>
-															<button
-																onClick={(e) =>
+														<Card.Text className="event-name">
+															<h1
+																onClick={(e) => {
 																	handleClick(
 																		e,
 																		event.name,
-																		event.location,
-																		event.eventDescription,
+																		event.location.streetAddress,
+																		event.description,
 																		event.img,
+
 																		event.id
-																	)
-																}
+																	);
+																}}
 															>
 																{event.name}
-															</button>
+															</h1>
 														</Card.Text>
-														<Card.Text>
-															{event.location}, {event.zipcode}
-														</Card.Text>
-														<Card.Text>{event.hostedBy}</Card.Text>
-														<Card.Text>{event.eventType}</Card.Text>
-														<Card.Text>{event.eventDescription.substring(0, 100)} .....</Card.Text>
+														<Card.Text>{event.location.streetAddress}</Card.Text>
+
+														<Card.Text>{event.category}</Card.Text>
+														<Card.Text>{event.description.substring(0, 100)} .....</Card.Text>
 														{/* buttons for edit and delete. */}
 														<Link to={`/events/:eventId/interests/${event._id}`}>
 															<button> edit trader</button>
@@ -149,17 +153,17 @@ const MyEvents = (props) => {
 
 						<Col>
 							<Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
-								<Card className="mb-5">
+								{/* <Card className="mb-5">
 									<Row>
 										<Col>
-											<Card.Img src={eventDetails?.img}></Card.Img>
+											<Card.Img src={eventDetails.img}></Card.Img>
 										</Col>
 										<Col>
-											<Card.Text>{eventDetails?.name}</Card.Text>
-											<Card.Text>{eventDetails?.location}</Card.Text>
+											<Card.Text>{eventDetails.name}</Card.Text>
+											<Card.Text>{eventDetails.location}</Card.Text>
 										</Col>
 									</Row>
-								</Card>
+								</Card> */}
 
 								{/* <Card className="mb-5">
                     <Card.Img 
@@ -168,7 +172,7 @@ const MyEvents = (props) => {
                 </Card> */}
 
 								<Card>
-									<Card.Text>{eventDetails.eventDescription}</Card.Text>
+									<Card.Text>{eventDetails.description}</Card.Text>
 								</Card>
 							</Card>
 						</Col>

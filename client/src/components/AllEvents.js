@@ -142,6 +142,7 @@ const eventslist = [
 ];
 
 const AllEvents = ({ events, setEvents }) => {
+	const { logout } = useContext(UserContext);
 	const [eventDetails, setEventDetails] = useState([]);
 	const [show, setShow] = useState(false);
 	const [eventClickedId, setEventClickedId] = useState(null);
@@ -236,9 +237,9 @@ const AllEvents = ({ events, setEvents }) => {
 	//
 	// },[])
 
-	const handleClick = (e, name, location, eventDescription, img, hostedBy, id) => {
+	const handleClick = (e, name, location, description, img, createdBy, id) => {
 		e.preventDefault();
-		setEventDetails({ name: name, location: location, eventDescription: eventDescription, img: img, hostedBy: hostedBy });
+		setEventDetails({ name: name, location: location, description: description, img: img, createdBy: createdBy });
 		setEventClickedId(id);
 	};
 
@@ -297,6 +298,7 @@ const AllEvents = ({ events, setEvents }) => {
 			)
 
 			.then((res) => {
+				logout();
 				console.log(res);
 				console.log(res.data);
 				navigate("/");
@@ -703,12 +705,12 @@ const AllEvents = ({ events, setEvents }) => {
 
 								{eventClickedId ? (
 									<Card>
-										<Card.Text>{eventDetails.eventDescription}</Card.Text>
+										<Card.Text>{eventDetails.description}</Card.Text>
 									</Card>
 								) : (
 									// Loads the information of latest event when no event is selected
 									<Card>
-										<Card.Text>{events[0]?.eventDescription}</Card.Text>
+										<Card.Text>{events[0]?.description}</Card.Text>
 									</Card>
 								)}
 							</Card>
