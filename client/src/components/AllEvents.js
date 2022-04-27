@@ -9,7 +9,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from 'react-router-dom';
 import { getGeocode, getLatLng } from "use-places-autocomplete";
-import NavbarComponent from './NavbarComponent';
 import axios from "axios";
 
 

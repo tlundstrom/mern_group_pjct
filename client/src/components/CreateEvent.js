@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import FileBase64 from "react-file-base64";
 import Navbar from "react-bootstrap/Navbar";
 import Container from "react-bootstrap/Container";
@@ -255,12 +255,6 @@ const logoutHandler = (e) => {
     
     }
     export default CreateEvent;
-
-
-
-
-
-
 
 
 
