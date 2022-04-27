@@ -162,6 +162,7 @@ const MyEvents = (props) => {
 			<div className="d-flex justify-content-between w-75 mx-auto">
 				<Container>
 					<Row>
+						<h1> My Hosted Events</h1>
 						<Col style={{ height: "130vh", overflowY: "scroll" }}>
 							<Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
 								{
@@ -183,25 +184,26 @@ const MyEvents = (props) => {
 													</Col>
 
 													<Col sm={6}>
-														<Card.Title
-															className="event-name"
-															onClick={(e) => {
-																handleClick(
-																	e,
-																	event.name,
-																	event.location.streetAddress,
-																	event.description,
-																	event.img,
+														<Card.Title className="event-name">
+															<h1
+																onClick={(e) => {
+																	handleClick(
+																		e,
+																		event.name,
+																		event.location.streetAddress,
+																		event.description,
+																		event.img,
 
-																	event.id
-																);
-															}}
-														>
-															{event.name}
+																		event.id
+																	);
+																}}
+															>
+																{event.name}
+															</h1>
 														</Card.Title>
-														<Card.Text>{event.location.streetAddress}</Card.Text>
+														<Card.Title>{event.location.streetAddress}</Card.Title>
 
-														<Card.Text>{event.category}</Card.Text>
+														<Card.Title>{event.category}</Card.Title>
 														<Card.Text>{event.description.substring(0, 100)} .....</Card.Text>
 														{/* buttons for edit and delete. */}
 														<Link to={`/events/${event._id}`}>
@@ -218,6 +220,7 @@ const MyEvents = (props) => {
 						</Col>
 
 						<Col>
+							<h1> Events I'm Attending</h1>
 							<Card className="mt-20 shadow p-3 mb-5 mx-auto bg-white rounded">
 								{/* <Card className="mb-5">
 									<Row>
