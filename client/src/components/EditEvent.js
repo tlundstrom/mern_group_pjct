@@ -76,7 +76,7 @@ const EditEvent = (props) => {
 			.then((res) => {
 				console.log(res);
 				console.log(res.data);
-				navigate("/");
+				navigate("/events");
 			})
 			.catch((err) => {
 				console.log(err);
