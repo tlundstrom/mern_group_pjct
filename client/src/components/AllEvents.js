@@ -145,7 +145,7 @@ const AllEvents = ({ events, setEvents }) => {
 	const [eventDetails, setEventDetails] = useState([]);
 	const [show, setShow] = useState(false);
 	const [eventClickedId, setEventClickedId] = useState(null);
-
+	const [interest, setInterest] = useState({ going: false, interested: false });
 	const [searchZipCode, setSearchZipCode] = useState("");
 	const [searchCategory, setSearchCategory] = useState("");
 	const [searchDate, setSearchDate] = useState("");
@@ -159,25 +159,58 @@ const AllEvents = ({ events, setEvents }) => {
 
 	const navigate = useNavigate();
 
+	// useEffect(() => {
+	// 	setEvents(
+	// 		eventslist.map((evnt) => {
+	// 			return {
+	// 				interested: false,
+	// 				going: false,
+	// 				id: evnt.id,
+	// 				name: evnt.name,
+	// 				date: evnt.date,
+	// 				location: evnt.location,
+	// 				zipcode: evnt.zipcode,
+	// 				hostedBy: evnt.hostedBy,
+	// 				eventType: evnt.eventType,
+	// 				eventDescription: evnt.eventDescription,
+	// 				img: evnt.img,
+	// 			};
+	// 		})
+	// 	);
+	// }, []);
+
 	useEffect(() => {
-		setEvents(
-			eventslist.map((evnt) => {
-				return {
-					interested: false,
-					going: false,
-					id: evnt.id,
-					name: evnt.name,
-					date: evnt.date,
-					location: evnt.location,
-					zipcode: evnt.zipcode,
-					hostedBy: evnt.hostedBy,
-					eventType: evnt.eventType,
-					eventDescription: evnt.eventDescription,
-					img: evnt.img,
-				};
+		axios
+			.get("http://localhost:8000/api/events")
+			.then((res) => {
+				setEvents(res.data);
 			})
-		);
-	}, []);
+			.catch((err) => {
+				console.log(err);
+			});
+	});
+
+	const handleCheck = (e, id) => {
+		console.log(id);
+		e.target.name == "going" ? handleGoing(id) : handleInterested(id);
+		axios
+			.post(`http://localhost:8000/api/events/${id}/interests/create`, interest, { withCredentials: true })
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	const handleGoing = (id) => {
+		console.log("handleGoing");
+		setInterest({ going: !interest.going, interested: false });
+	};
+	const handleInterested = (id) => {
+		console.log("handleInterested");
+		setInterest({ interested: !interest.interested, going: false });
+	};
 
 	// useEffect (() => {
 	//         axios.get("http://localhost:8000/api/events")
@@ -244,15 +277,15 @@ const AllEvents = ({ events, setEvents }) => {
 		setShow(!show);
 	};
 
-	const handleCheckedGoing = (eventObj) => {
-		eventObj.going = !eventObj.going;
-		setEvents([...events]);
-	};
+	// const handleCheckedGoing = (eventObj) => {
+	// 	eventObj.going = !eventObj.going;
+	// 	setEvents([...events]);
+	// };
 
-	const handleCheckedInterested = (eventObj) => {
-		eventObj.interested = !eventObj.interested;
-		setEvents([...events]);
-	};
+	// const handleCheckedInterested = (eventObj) => {
+	// 	eventObj.interested = !eventObj.interested;
+	// 	setEvents([...events]);
+	// };
 
 	const logoutHandler = (e) => {
 		axios
@@ -396,27 +429,29 @@ const AllEvents = ({ events, setEvents }) => {
 														<Col sm={6}>
 															<Card.Text className="hover">
 																<h1
-																	onClick={(e) =>
+																	onClick={(e) => {
 																		handleClick(
 																			e,
 																			event.name,
-																			event.location,
+																			event.location.streetAddress,
 																			event.eventDescription,
 																			event.img,
 																			event.hostedBy,
 																			event.id
-																		)
-																	}
+																		);
+																	}}
 																>
 																	{event.name}
 																</h1>
 															</Card.Text>
 
-															<Card.Text style={{ color: "gray" }}># {event.eventType}</Card.Text>
+															<Card.Text style={{ color: "gray" }}># {event.category}</Card.Text>
 
 															{/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
-															<Card.Text onClick={(e) => handleSelectLocation(e, event.location, event.id)}>
-																{event.location}-{event.zipcode}
+															<Card.Text
+																onClick={(e) => handleSelectLocation(e, event.location.streetAddress, event.id)}
+															>
+																{event.location.streetAddress}
 															</Card.Text>
 
 															<Card.Text>Host: {event.hostedBy}</Card.Text>
@@ -478,9 +513,7 @@ const AllEvents = ({ events, setEvents }) => {
 																	label="Interested"
 																	inline
 																	checked={event.interested}
-																	onChange={() => {
-																		handleCheckedInterested(event);
-																	}}
+																	onChange={(e) => handleCheck(e, event._id)}
 																/>
 															</Form.Group>
 
@@ -490,9 +523,7 @@ const AllEvents = ({ events, setEvents }) => {
 																	label="Going"
 																	inline
 																	checked={event.going}
-																	onChange={() => {
-																		handleCheckedGoing(event);
-																	}}
+																	onChange={(e) => handleCheck(e, event._id)}
 																/>
 															</Form.Group>
 														</Form>
@@ -513,23 +544,23 @@ const AllEvents = ({ events, setEvents }) => {
 												>
 													<Row>
 														<Col sm={6}>
-															<Card.Img src={event.img}></Card.Img>
+															<Card.Img src={event.img || null}></Card.Img>
 														</Col>
 
 														<Col sm={6}>
 															<Card.Text className="event-name">
 																<h1
-																	onClick={(e) =>
+																	onClick={(e) => {
 																		handleClick(
 																			e,
 																			event.name,
-																			event.location,
-																			event.eventDescription,
+																			event.location.streetAddress,
+																			event.description,
 																			event.img,
-																			event.hostedBy,
+																			event.createdBy,
 																			event.id
-																		)
-																	}
+																		);
+																	}}
 																>
 																	{event.name}
 																</h1>
@@ -537,14 +568,16 @@ const AllEvents = ({ events, setEvents }) => {
 
 															<Card.Text># {event.eventType}</Card.Text>
 															{/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
-															<Card.Text onClick={(e) => handleSelectLocation(e, event.location, event.id)}>
-																{event.location}-{event.zipcode}
+															<Card.Text
+																onClick={(e) => handleSelectLocation(e, event.location.streetAddress, event.id)}
+															>
+																{event.location.streetAddress}
 															</Card.Text>
 
-															<Card.Text> Host: {event.hostedBy}</Card.Text>
+															<Card.Text> Host: {event.createdBy.name}</Card.Text>
 
 															<Card.Text>
-																{event.eventDescription.substring(0, 100)}
+																{event.description.substring(0, 100)}
 																..... <span style={{ color: "blue" }}>details</span>
 															</Card.Text>
 														</Col>
@@ -600,10 +633,9 @@ const AllEvents = ({ events, setEvents }) => {
 																	type="checkbox"
 																	label="Interested"
 																	inline
-																	checked={event.interested}
-																	onChange={() => {
-																		handleCheckedInterested(event);
-																	}}
+																	name="interested"
+																	checked={interest.interested}
+																	onChange={(e) => handleCheck(e, event._id)}
 																/>
 															</Form.Group>
 
@@ -612,10 +644,9 @@ const AllEvents = ({ events, setEvents }) => {
 																	type="checkbox"
 																	label="Going"
 																	inline
-																	checked={event.going}
-																	onChange={() => {
-																		handleCheckedGoing(event);
-																	}}
+																	name="going"
+																	checked={interest.going}
+																	onChange={(e) => handleCheck(e, event._id)}
 																/>
 															</Form.Group>
 														</Form>
@@ -637,11 +668,11 @@ const AllEvents = ({ events, setEvents }) => {
 											<Col>
 												<Row>
 													<Card.Text>{eventDetails?.name}</Card.Text>
-													<Card.Text>{eventDetails?.location}</Card.Text>
+													<Card.Text>{eventDetails?.location.streetAddress}</Card.Text>
 												</Row>
 
 												<Row>
-													<Card.Text>{eventDetails?.hostedBy}</Card.Text>
+													<Card.Text>{eventDetails?.createdBy}</Card.Text>
 												</Row>
 											</Col>
 										</Row>
@@ -656,7 +687,7 @@ const AllEvents = ({ events, setEvents }) => {
 											<Col>
 												<Row>
 													<Card.Text>{events[0]?.name}</Card.Text>
-													<Card.Text>{events[0]?.location}</Card.Text>
+													<Card.Text>{events[0]?.location.streetAddress}</Card.Text>
 												</Row>
 												<Row>
 													<Card.Text>{events[0]?.hostedBy}</Card.Text>
