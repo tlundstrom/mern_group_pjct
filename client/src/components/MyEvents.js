@@ -184,7 +184,7 @@ const MyEvents = (props) => {
 													</Col>
 
 													<Col sm={6}>
-														<Card.Text className="event-name">
+														<Card.Title className="event-name">
 															<h1
 																onClick={(e) => {
 																	handleClick(
@@ -200,10 +200,10 @@ const MyEvents = (props) => {
 															>
 																{event.name}
 															</h1>
-														</Card.Text>
-														<Card.Text>{event.location.streetAddress}</Card.Text>
+														</Card.Title>
+														<Card.Title>{event.location.streetAddress}</Card.Title>
 
-														<Card.Text>{event.category}</Card.Text>
+														<Card.Title>{event.category}</Card.Title>
 														<Card.Text>{event.description.substring(0, 100)} .....</Card.Text>
 														{/* buttons for edit and delete. */}
 														<Link to={`/events/${event._id}`}>
