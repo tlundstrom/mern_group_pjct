@@ -32,9 +32,8 @@ const eventSchema = new Schema(
 			type: String,
 			required: [true, "Event date is required."],
 		},
-		info: {
+		description: {
 			type: String,
-			required: [true, "Event info is required."],
 		},
 		category: {
 			type: String,
