@@ -13,11 +13,10 @@ const AuthApp = (props) => {
 			<BrowserRouter>
 				<div>
 					<Routes>
+						{/* <Route path="/" element={<LoginReg />} /> */}
 						<Route path="/" element={<AllEvents events={events} setEvents={setEvents} />} />
 						<Route path="/maps" element={<GoogleMaps />} />
-						<Route path="/events" element={<MyEvents events={events} setEvents={setEvents} />} />
-						{/* <Route path="/add" element={<HostEvent />} /> */}
-						{/* <Route path="/edit/:id" element={<EditEvent />} /> */}
+						<Route path="/events" element={<MyEvents />} />
 						<Route path="/create" element={<CreateEvent />} />
 					</Routes>
 				</div>

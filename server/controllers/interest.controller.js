@@ -9,6 +9,7 @@ module.exports = {
 		newInterestObject.createdBy = req.jwtpayload.id;
 
 		Event.findById(id) // finds the event that will get updated
+			.populate("createdBy", "name")
 			.then((event) => {
 				// looks at the type of interest then pushes it to the array of the event.
 				if (newInterestObject.interested) {
