@@ -18,16 +18,28 @@ const MyEvents = (props) => {
 	const [show, setShow] = useState(false);
 	const [eventClickedId, setEventClickedId] = useState(null);
 	const [deleted, setDeleted] = useState(false);
-
+	const [interests, setInterests] = useState([]);
+	const [interestList, setInterestList] = useState([]);
+	const [mounted, setMounted] = useState(false);
+	let id = null;
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		// axios call to get my Events
+		axios
+			.get(`http://localhost:8000/api/interests`, {
+				withCredentials: true,
+			})
+			.then((res) => {
+				setInterests(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 		axios
 			.get(`http://localhost:8000/api/users/`, { withCredentials: true })
 			.then((res) => {
-				console.log(res.data._id);
-				let id = res.data._id;
+				// console.log(res.data._id);
+				id = res.data._id;
 				axios
 					.get(`http://localhost:8000/api/events/user/${id}`)
 					.then((res) => setMyEvents(res.data))
@@ -35,6 +47,24 @@ const MyEvents = (props) => {
 			})
 			.catch((err) => console.log(err));
 	}, []);
+
+	useEffect(() => {
+		interests.map((interest, index) => {
+			if (interest.going === true || interest.interested === true) {
+				let thisEvent = interest.event._id;
+				axios
+					.get(`http://localhost:8000/api/events/${thisEvent}`)
+					.then((res) => {
+						//console.log(res.data);
+						setInterestList([...interestList, res.data[0]]);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			}
+		});
+		setMounted(true);
+	}, [interests]);
 
 	// when event clicked...
 
@@ -205,9 +235,18 @@ const MyEvents = (props) => {
     
                 </Card> */}
 
-								<Card>
-									<Card.Text>{eventDetails.description}</Card.Text>
-								</Card>
+								{mounted &&
+									interestList.map((int, indx) => {
+										console.log(int);
+										return (
+											<Card key={indx}>
+												<Card.Title>{int.name}</Card.Title>
+												<Card.Text>{int.time}</Card.Text>
+												<Card.Text>{int.date}</Card.Text>
+												<Card.Text>{int.location.streetAddress}</Card.Text>
+											</Card>
+										);
+									})}
 							</Card>
 						</Col>
 					</Row>

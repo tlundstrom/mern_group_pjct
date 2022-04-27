@@ -47,6 +47,7 @@ module.exports = {
 		console.log(id);
 		Interest.find({})
 			.populate("createdBy", "name")
+			.populate("event")
 			.then((interests) => {
 				res.json(interests);
 			})
