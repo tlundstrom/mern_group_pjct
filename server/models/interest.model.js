@@ -21,4 +21,4 @@ const interestSchema = new Schema(
 	{ timestamps: true }
 );
 
-module.exports = mongoose.model("Interested", interestSchema);
+module.exports = mongoose.model("Interest", interestSchema);
