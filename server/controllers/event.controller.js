@@ -3,6 +3,7 @@ const Event = require("../models/event.model");
 module.exports = {
 	createEvent: (req, res) => {
 		const newEventObject = new Event(req.body);
+		console.log(req);
 		newEventObject.createdBy = req.jwtpayload.id;
 		newEventObject
 			.save()
@@ -25,8 +26,7 @@ module.exports = {
 			});
 	},
 	findAllEventsByUser: (req, res) => {
-		const id = req.params.userId;
-		Event.find({ createdBy: id })
+		Event.find({ createdBy: req.params.id })
 			.populate("createdBy", "name")
 			.then((events) => {
 				res.json(events);

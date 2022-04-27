@@ -10,14 +10,14 @@ import { UserContext } from "../contexts/UserContext";
 const CreateEvent = (props) => {
 	const [name, setName] = useState("");
 	const [category, setCategory] = useState("");
-	const [location, setLocation] = useState({ streetAddress: "" });
+	// const [location, setLocation] = useState({ streetAddress: "" });
 	const [zipcode, setZipcode] = useState("");
 	const [img, setImg] = useState("");
 	const [time, setTime] = useState("");
 	const [date, setDate] = useState("");
 	const [description, setDescription] = useState("");
 	const [errors, setErrors] = useState({});
-	const [streetAddress, setStreetAddress] = useState({});
+	const [streetAddress, setStreetAddress] = useState("");
 	const navigate = useNavigate();
 
 	const logoutHandler = (e) => {
@@ -40,7 +40,8 @@ const CreateEvent = (props) => {
 
 	const submitHandler = (e) => {
 		e.preventDefault();
-		setLocation({ streetAddress: location + "" + zipcode });
+		let location = { streetAddress: streetAddress + "" + zipcode };
+
 		axios
 			.post(
 				"http://localhost:8000/api/events/create",
