@@ -20,6 +20,4 @@ const interestSchema = new Schema(
 	},
 	{ timestamps: true }
 );
-
-module.exports = mongoose.model("Interested", interestSchema);
-//comment
+module.exports = mongoose.model("Interest", interestSchema);
