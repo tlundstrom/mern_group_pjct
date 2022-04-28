@@ -112,61 +112,10 @@ const AllEvents = ({ events, setEvents }) => {
 
 	return (
 		<div>
-			<NavBarComponent />
-			<div style={{ height: "50px" }}></div>
-
-			{/* show the forms only when "find my events" are clicked */}
-			{/* they are hidden otherwise */}
-			{show && (
-				<Form className=" mt-4" onSubmit={handleSubmit}>
-					<Container>
-						<Row>
-							<Col>
-								<Form.Group controlId="formBasicSelect" className="mt-4">
-									{/* <Form.Label>Pick a Date</Form.Label> */}
-									<Form.Control type="date" name="date" placeholder="Pick a date" onChange={(e) => setSearchDate(e.target.value)} />
-								</Form.Group>
-							</Col>
-
-							<Col>
-								{/* <Card className="w-50 mt-4"> */}
-								<Form.Group controlId="formBasicSelect" className="mt-4">
-									<Form.Select aria-label="Default select example" onChange={(e) => setSearchCategory(e.target.value)}>
-										<option>Select a category</option>
-										<option value="Arts">Arts</option>
-										<option value="Books">Books</option>
-										<option value="Movie">Movie</option>
-										<option value="Music">Music</option>
-										<option value="Nature">Nature</option>
-										<option value="Food">Food</option>
-										<option value="Sports">Sports</option>
-									</Form.Select>
-								</Form.Group>
-								{/* </Card> */}
-							</Col>
-
-							<Col>
-								<Form.Group controlId="formBasicSelect" className=" mt-4">
-									<Form.Control
-										aria-label="Default select example"
-										type="search"
-										placeholder="Enter a Zipcode"
-										onChange={(e) => setSearchZipCode(e.target.value)}
-									></Form.Control>
-								</Form.Group>
-							</Col>
-
-							<Col>
-								<Form.Group className=" mt-4">
-									<button className="btn btn-secondary">Submit</button>
-								</Form.Group>
-							</Col>
-						</Row>
-					</Container>
-				</Form>
-			)}
-
-			<div style={{ height: "30px" }}></div>
+			<NavBarComponent events = {events}  searchZipCode = {searchZipCode} searchCategory = {searchCategory} searchDate= {searchDate} searchResult ={searchResult}/>
+			{/* are these really needed? they space out the columns of cards from the nav bar a bit, but two?  */}
+			{/* <div style={{ height: "50px" }}></div> */}
+			{/* <div style={{ height: "30px" }}></div> */}
 
 			{searchResult?.map((event, i) => {
 				return <p>{event.zipcode}</p>;
@@ -232,47 +181,6 @@ const AllEvents = ({ events, setEvents }) => {
 													</Row>
 
 													<Row>
-														{/* <Form className="mx-auto mt-4">
-                                <Form.Group>
-                                    <Form.Check
-                                    type="checkbox"
-                                    label="Interested" 
-                                    inline
-                                    checked={event.interested}
-                                    onChange= {(e) => {
-                                        let checked = e.target.checked;
-                                        console.log(checked)
-                                        setEvents(events.map((evnt) => {
-                                            if(evnt.id === event.id) {
-                                                event.interested = checked
-                                            }
-                                            return evnt
-                                        })
-                                        )
-                                        }}
-                                    />
-                                </Form.Group>
-                                
-                                <Form.Group>
-                                    <Form.Check
-                                    type="checkbox"
-                                    label="Going"  
-                                    inline
-                                    checked={event.going} 
-                                    onChange= {(e) => {
-                                        let checked = e.target.checked;
-                                        setEvents(events.map((evnt) => {
-                                            if(evnt.id === event.id) {
-                                                event.going = checked
-                                            }
-                                            return evnt
-                                        })
-                                        )
-                                        }}      
-                                />
-                                </Form.Group>
-                            
-                            </Form> */}
 
 														<Form className="mx-auto mt-4 d-flex p-2">
 															<Form.Group>
@@ -334,7 +242,7 @@ const AllEvents = ({ events, setEvents }) => {
 																</h1>
 															</Card.Title>
 
-															<Card.Title># {event.eventType}</Card.Title>
+															<Card.Title>{event.eventType}</Card.Title>
 															{/* <Card.Text onClick={(e) => {handleSelect(event.location)}}>{event.location}-{event.zipcode}</Card.Text>  */}
 															<Card.Title
 																onClick={(e) => handleSelectLocation(e, event.location.streetAddress, event.id)}
